@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Smart Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #ede9fe;
+            color: #6d28d9;
+            transform: translateX(5px);
+        }
+        .crown-1 { color: #ffd700; } /* Gold */
+        .crown-2 { color: #c0c0c0; } /* Silver */
+        .crown-3 { color: #cd7f32; } /* Bronze */
+        .leaderboard-row:hover {
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg flex-col justify-between hidden lg:flex transition-all duration-300">
+            <div>
+                <div class="h-20 flex items-center justify-center border-b">
+                    <a href="index.html" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-graduation-cap text-violet-500"></i>
+                        Smart Campus
+                    </a>
+                </div>
+                <nav class="mt-6">
+                    <a href="dashboard_stu.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-tachometer-alt w-6"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-book w-6"></i>
+                        <span>My Courses</span>
+                    </a>
+                    <a href="resources.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-folder-open w-6"></i>
+                        <span>Resources</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-calendar-check w-6"></i>
+                        <span>My Schedule</span>
+                    </a>
+                    <a href="counselling.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                       <i class="fas fa-comments w-6"></i>
+                        <span>Counselling</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="p-6 border-t">
+                <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                    <i class="fas fa-cog w-6"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" id="logout-btn" class="sidebar-link flex items-center py-3 px-6 text-red-600 hover:!bg-red-50 hover:!text-red-700">
+                    <i class="fas fa-sign-out-alt w-6"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top bar -->
+            <header class="h-20 bg-white shadow-md flex items-center justify-between px-6 z-10">
+                 <button id="menu-toggle" class="lg:hidden">
+                       <i class="fas fa-bars text-2xl text-gray-600"></i>
+                 </button>
+                 <div class="hidden lg:block">
+                       <h1 class="text-2xl font-bold text-gray-800">Leaderboard & Badges</h1>
+                 </div>
+                 <div class="flex items-center gap-6">
+                       <a href="leaderboard.html" class="block transition-transform hover:scale-105">
+                           <div class="flex items-center gap-2 bg-yellow-100 text-yellow-800 font-semibold py-2 px-4 rounded-full shadow-inner">
+                                 <i class="fas fa-star text-yellow-500"></i>
+                                 <span>1,250 Points</span>
+                           </div>
+                       </a>
+                       <div class="relative">
+                             <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="Profile" class="w-11 h-11 rounded-full cursor-pointer border-2 border-violet-200 hover:border-violet-400 transition-all">
+                       </div>
+                 </div>
+            </header>
+
+            <!-- Main content area -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+                <div class="container mx-auto">
+                    <!-- Your Rank Summary -->
+                    <div class="bg-gradient-to-r from-violet-500 to-purple-600 text-white p-6 rounded-lg shadow-lg mb-8 text-center">
+                        <h2 class="text-2xl font-bold mb-2">Your Current Standing</h2>
+                        <div class="flex justify-center items-center gap-8">
+                            <div>
+                                <p class="text-4xl font-bold">#4</p>
+                                <p class="text-sm opacity-80">Your Rank</p>
+                            </div>
+                            <div>
+                                <p class="text-4xl font-bold">1,250</p>
+                                <p class="text-sm opacity-80">Your Points</p>
+                            </div>
+                            <div>
+                                <p class="text-4xl font-bold">501</p>
+                                <p class="text-sm opacity-80">Points to Rank Up</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Leaderboard -->
+                    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                         <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Student Leaderboard</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="border-b bg-gray-50">
+                                        <th class="p-4 font-semibold">Rank</th>
+                                        <th class="p-4 font-semibold">Student</th>
+                                        <th class="p-4 font-semibold">ID</th>
+                                        <th class="p-4 font-semibold text-right">Points</th>
+                                        <th class="p-4 font-semibold text-center">Profile</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b leaderboard-row">
+                                        <td class="p-4 font-bold text-lg text-center">1 <i class="fas fa-crown crown-1"></i></td>
+                                        <td class="p-4 flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZSUyMHBpY3R1cmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=80&q=60" class="w-10 h-10 rounded-full object-cover" alt="John Smith">
+                                            <span class="font-bold text-gray-800">John Smith</span>
+                                        </td>
+                                        <td class="p-4 font-mono text-gray-600">0112320240</td>
+                                        <td class="p-4 font-bold text-right text-gray-800">2,150</td>
+                                        <td class="p-4 text-center"><a href="#" class="text-violet-600 hover:underline text-sm font-semibold">View</a></td>
+                                    </tr>
+                                    <tr class="border-b leaderboard-row">
+                                        <td class="p-4 font-bold text-lg text-center">2 <i class="fas fa-crown crown-2"></i></td>
+                                        <td class="p-4 flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZSUyMHBpY3R1cmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=60&q=60" class="w-10 h-10 rounded-full object-cover" alt="Jane Doe">
+                                            <span class="font-bold text-gray-800">Jane Doe</span>
+                                        </td>
+                                        <td class="p-4 font-mono text-gray-600">0112230122</td>
+                                        <td class="p-4 font-bold text-right text-gray-800">1,900</td>
+                                        <td class="p-4 text-center"><a href="#" class="text-violet-600 hover:underline text-sm font-semibold">View</a></td>
+                                    </tr>
+                                    <tr class="border-b leaderboard-row">
+                                        <td class="p-4 font-bold text-lg text-center">3 <i class="fas fa-crown crown-3"></i></td>
+                                        <td class="p-4 flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww&auto=format&fit=crop&w=60&q=60" class="w-10 h-10 rounded-full object-cover" alt="Emily White">
+                                            <span class="font-bold text-gray-800">Emily White</span>
+                                        </td>
+                                        <td class="p-4 font-mono text-gray-600">0112510244</td>
+                                        <td class="p-4 font-bold text-right text-gray-800">1,750</td>
+                                        <td class="p-4 text-center"><a href="#" class="text-violet-600 hover:underline text-sm font-semibold">View</a></td>
+                                    </tr>
+                                    <tr class="border-b bg-violet-50 leaderboard-row">
+                                        <td class="p-4 font-bold text-center">4</td>
+                                        <td class="p-4 flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=40&q=80" class="w-10 h-10 rounded-full object-cover" alt="Sifat">
+                                            <span class="font-semibold text-violet-700">Sifat (You)</span>
+                                        </td>
+                                        <td class="p-4 font-mono text-violet-700">0112430145</td>
+                                        <td class="p-4 font-bold text-right text-violet-700">1,250</td>
+                                        <td class="p-4 text-center"><a href="#" class="text-violet-600 hover:underline text-sm font-semibold">View</a></td>
+                                    </tr>
+                                    <tr class="border-b leaderboard-row">
+                                        <td class="p-4 font-semibold text-center">5</td>
+                                        <td class="p-4 flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww&auto=format&fit=crop&w=40&q=60" class="w-10 h-10 rounded-full object-cover" alt="Michael Brown">
+                                            <span class="font-medium text-gray-700">Michael Brown</span>
+                                        </td>
+                                        <td class="p-4 font-mono text-gray-600">0112320247</td>
+                                        <td class="p-4 font-semibold text-right text-gray-600">1,100</td>
+                                        <td class="p-4 text-center"><a href="#" class="text-violet-600 hover:underline text-sm font-semibold">View</a></td>
+                                    </tr>
+                                     <tr class="border-b leaderboard-row">
+                                        <td class="p-4 font-semibold text-center">6</td>
+                                        <td class="p-4 flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZSUyMHBpY3R1cmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=40&q=60" class="w-10 h-10 rounded-full object-cover" alt="Sarah Wilson">
+                                            <span class="font-medium text-gray-700">Sarah Wilson</span>
+                                        </td>
+                                        <td class="p-4 font-mono text-gray-600">0112320253</td>
+                                        <td class="p-4 font-semibold text-right text-gray-600">980</td>
+                                        <td class="p-4 text-center"><a href="#" class="text-violet-600 hover:underline text-sm font-semibold">View</a></td>
+                                    </tr>
+                                     <tr class="border-b leaderboard-row">
+                                        <td class="p-4 font-semibold text-center">7</td>
+                                        <td class="p-4 flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cHJvZmlsZSUyMHBpY3R1cmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=40&q=60" class="w-10 h-10 rounded-full object-cover" alt="David Lee">
+                                            <span class="font-medium text-gray-700">David Lee</span>
+                                        </td>
+                                        <td class="p-4 font-mono text-gray-600">0112510344</td>
+                                        <td class="p-4 font-semibold text-right text-gray-600">850</td>
+                                        <td class="p-4 text-center"><a href="#" class="text-violet-600 hover:underline text-sm font-semibold">View</a></td>
+                                    </tr>
+                                    <tr class="border-b leaderboard-row">
+                                        <td class="p-4 font-semibold text-center">8</td>
+                                        <td class="p-4 flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww&auto=format&fit=crop&w=40&q=60" class="w-10 h-10 rounded-full object-cover" alt="Jessica Chen">
+                                            <span class="font-medium text-gray-700">Jessica Chen</span>
+                                        </td>
+                                        <td class="p-4 font-mono text-gray-600">0112230132</td>
+                                        <td class="p-4 font-semibold text-right text-gray-600">720</td>
+                                        <td class="p-4 text-center"><a href="#" class="text-violet-600 hover:underline text-sm font-semibold">View</a></td>
+                                    </tr>
+                                    <tr class="border-b leaderboard-row">
+                                        <td class="p-4 font-semibold text-center">9</td>
+                                        <td class="p-4 flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww&auto=format&fit=crop&w=40&q=60" class="w-10 h-10 rounded-full object-cover" alt="Chris Garcia">
+                                            <span class="font-medium text-gray-700">Chris Garcia</span>
+                                        </td>
+                                        <td class="p-4 font-mono text-gray-600">0112320249</td>
+                                        <td class="p-4 font-semibold text-right text-gray-600">610</td>
+                                        <td class="p-4 text-center"><a href="#" class="text-violet-600 hover:underline text-sm font-semibold">View</a></td>
+                                    </tr>
+                                    <tr class="leaderboard-row">
+                                        <td class="p-4 font-semibold text-center">10</td>
+                                        <td class="p-4 flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww&auto=format&fit=crop&w=40&q=60" class="w-10 h-10 rounded-full object-cover" alt="Olivia Martinez">
+                                            <span class="font-medium text-gray-700">Olivia Martinez</span>
+                                        </td>
+                                        <td class="p-4 font-mono text-gray-600">0112510255</td>
+                                        <td class="p-4 font-semibold text-right text-gray-600">550</td>
+                                        <td class="p-4 text-center"><a href="#" class="text-violet-600 hover:underline text-sm font-semibold">View</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Badges -->
+                     <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Your Badges</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                            <div class="bg-white p-4 rounded-lg shadow-md text-center" title="Upload your first resource">
+                                <i class="fas fa-star text-4xl text-yellow-400 mb-2"></i>
+                                <h4 class="font-bold text-sm">First Upload</h4>
+                                <p class="text-xs text-gray-500">Unlocked</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-md text-center opacity-50" title="Upload 10 approved study notes">
+                                <i class="fas fa-book-reader text-4xl text-gray-400 mb-2"></i>
+                                <h4 class="font-bold text-sm">Note Master</h4>
+                                 <p class="text-xs text-gray-500">Locked</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-md text-center opacity-50" title="Be in the top 10 for a whole month">
+                                <i class="fas fa-trophy text-4xl text-gray-400 mb-2"></i>
+                                <h4 class="font-bold text-sm">Top Contributor</h4>
+                                 <p class="text-xs text-gray-500">Locked</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- How to Earn Points -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">How to Earn Points & Badges</h2>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><span class="font-semibold">+50 points</span> for uploading quality study notes for a course.</li>
+                            <li><span class="font-semibold">+25 points</span> for uploading previous questions or solutions.</li>
+                             <li><span class="font-semibold">"Note Master" Badge:</span> Awarded after uploading 10 approved study notes.</li>
+                            <li><span class="font-semibold">"Top Contributor" Badge:</span> Awarded for being in the top 10 for a month.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+         document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+            });
+         });
+    </script>
+</body>
+</html>

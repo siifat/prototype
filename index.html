@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Campus - Your Academic Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* A light gray background */
+        }
+        .hero-bg {
+            position: relative;
+            background: linear-gradient(45deg, rgba(6, 182, 212, 0.7), rgba(124, 58, 237, 0.7)), url('Carosol_1.jpg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed; /* Creates the parallax-like effect */
+            overflow: hidden; /* Keeps particles inside */
+        }
+        .feature-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .btn-primary {
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+        .nav-link {
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #38bdf8; /* A bright blue for hover */
+        }
+        .stat-card {
+            transition: transform 0.3s ease-in-out;
+        }
+        .stat-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Particle animation */
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: float 25s infinite linear;
+            will-change: transform;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation Bar -->
+    <nav id="navbar" class="bg-white/80 backdrop-blur-md shadow-sm fixed w-full z-20 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center space-x-2">
+                          <!-- Graduation Cap Icon -->
+                          <svg class="h-8 w-8 text-cyan-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M12 2L1 7.5V13.79C1 14.86 1.34 15.89 1.97 16.73L3.41 15.29C3.14 14.82 3 14.31 3 13.79V8.5L12 4L21 8.5V13.79C21 18.61 17.41 21.23 12.5 22C12.33 22 12.17 22 12 22C7.5 22 4.11 19.33 3.12 15.5H5.14C5.93 17.89 8.5 20 12 20C15.5 20 18.23 18.42 19 15.79V9.5L12 6L3.41 10.74L2.07 9.27L12 2Z" />
+                          </svg>
+                          <h1 class="text-2xl font-bold text-gray-800">Smart Campus</h1>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#" class="nav-link text-gray-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="#features" class="nav-link text-gray-600 px-3 py-2 rounded-md text-sm font-medium">Features</a>
+                        <a href="#" class="nav-link text-gray-600 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="#" class="nav-link text-gray-600 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                 <div class="hidden md:flex items-center space-x-2">
+                     <a href="login.html" class="text-white bg-cyan-500 hover:bg-cyan-600 px-4 py-2 rounded-full text-sm font-medium btn-primary shadow-lg">Login</a>
+                 </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-button" type="button" class="bg-gray-200 inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-800 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-cyan-500">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+         <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="text-gray-600 hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#features" class="text-gray-600 hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium">Features</a>
+                <a href="#" class="text-gray-600 hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#" class="text-gray-600 hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                 <a href="login.html" class="bg-cyan-500 text-white block px-3 py-2 rounded-md text-base font-medium">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-bg pt-16">
+        <div id="particles-container" class="absolute top-0 left-0 w-full h-full"></div>
+        <div class="max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8 text-center relative z-10">
+            <h1 class="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl tracking-tight">
+                Quest for Excellence
+            </h1>
+            <p class="mt-6 max-w-2xl mx-auto text-xl text-cyan-100">
+                Your one-stop platform for academic resources, faculty counseling, and seamless exam scheduling. Let's make learning smarter, not harder.
+            </p>
+            <div class="mt-10">
+                <a href="login.html" class="btn-primary inline-block bg-white text-cyan-600 font-bold rounded-full py-4 px-8 text-lg hover:bg-gray-100 shadow-xl">
+                    Get Started Now
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <!-- ... existing feature section code ... -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base text-cyan-600 font-semibold tracking-wide uppercase">Our Features</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Everything You Need for Academic Success
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                    Smart Campus streamlines your student life with powerful, easy-to-use tools.
+                </p>
+            </div>
+
+            <div class="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+                <!-- Feature 1: Academic Resources -->
+                <div class="feature-card bg-gray-50 rounded-2xl shadow-lg overflow-hidden p-8 flex flex-col items-center text-center">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-cyan-100 text-cyan-600">
+                            <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-9-5.747h18"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.25 12.001A7.25 7.25 0 114.75 12.001a7.25 7.25 0 0114.5 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="mt-6 text-xl font-bold text-gray-900">Academic Resources</h3>
+                    <p class="mt-4 text-gray-500">
+                        Access a vast library of previous exam questions and solutions. Contribute your own and earn reward points for helping the community.
+                    </p>
+                </div>
+
+                <!-- Feature 2: Counselling Sessions -->
+                <div class="feature-card bg-gray-50 rounded-2xl shadow-lg overflow-hidden p-8 flex flex-col items-center text-center">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-100 text-purple-600">
+                             <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V7a2 2 0 012-2h6l2-2h2v2z" />
+                              </svg>
+                        </div>
+                    </div>
+                    <h3 class="mt-6 text-xl font-bold text-gray-900">Faculty Counselling</h3>
+                    <p class="mt-4 text-gray-500">
+                        Easily book one-on-one online counselling sessions with your faculty members via Google Meet, Zoom, or other services.
+                    </p>
+                </div>
+
+                <!-- Feature 3: Exam Scheduler -->
+                <div class="feature-card bg-gray-50 rounded-2xl shadow-lg overflow-hidden p-8 flex flex-col items-center text-center">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-teal-100 text-teal-600">
+                              <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                               </svg>
+                        </div>
+                    </div>
+                    <h3 class="mt-6 text-xl font-bold text-gray-900">Automated Exam Scheduler</h3>
+                    <p class="mt-4 text-gray-500">
+                        Simply upload your course's Excel file, and we'll automatically scan it to create a personalized exam schedule for you.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="bg-gray-800 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                    Join a Thriving Academic Community
+                </h2>
+                <p class="mt-4 text-lg text-gray-300">
+                    Our platform is growing every day, supporting students and faculty alike.
+                </p>
+            </div>
+            <div class="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 text-center">
+                <!-- Stat 1 -->
+                <div class="stat-card bg-gray-700/50 p-8 rounded-2xl">
+                    <p class="text-5xl font-extrabold text-white">1,200+</p>
+                    <p class="mt-2 text-lg font-medium text-cyan-300">Active Students</p>
+                </div>
+                <!-- Stat 2 -->
+                <div class="stat-card bg-gray-700/50 p-8 rounded-2xl">
+                    <p class="text-5xl font-extrabold text-white">85+</p>
+                    <p class="mt-2 text-lg font-medium text-purple-300">Faculty Members</p>
+                </div>
+                <!-- Stat 3 -->
+                <div class="stat-card bg-gray-700/50 p-8 rounded-2xl">
+                    <p class="text-5xl font-extrabold text-white">5,000+</p>
+                    <p class="mt-2 text-lg font-medium text-teal-300">Academic Resources</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white border-t border-gray-700">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex justify-center space-x-6 md:order-2">
+                    <!-- Social Icons can be added here -->
+                </div>
+                <div class="mt-8 md:mt-0 md:order-1">
+                    <p class="text-center text-base text-gray-400">
+                        &copy; 2024 Smart Campus. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Add a subtle shadow to the navbar on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 10) {
+                navbar.classList.add('shadow-lg');
+            } else {
+                navbar.classList.remove('shadow-lg');
+            }
+        });
+
+        // Particle effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const particlesContainer = document.getElementById('particles-container');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 20 + 5; // 5px to 25px
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                particle.style.bottom = `-${size}px`; // Start from just below the screen
+                particle.style.left = `${Math.random() * 100}%`;
+                
+                const animationDuration = Math.random() * 20 + 15; // 15s to 35s
+                const animationDelay = Math.random() * 15; // 0s to 15s
+                
+                particle.style.animationDuration = `${animationDuration}s`;
+                particle.style.animationDelay = `${animationDelay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        });
+    </script>
+</body>
+</html>
+

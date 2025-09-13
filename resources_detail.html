@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Resources - Smart Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #ede9fe;
+            color: #6d28d9;
+            transform: translateX(5px);
+        }
+        .resource-item:hover {
+            background-color: #f9fafb;
+        }
+        /* Modal Animation */
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: all 300ms ease-out; }
+        .modal-leave { opacity: 1; transform: scale(1); }
+        .modal-leave-active { opacity: 0; transform: scale(0.95); transition: all 300ms ease-in; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg flex-col justify-between hidden lg:flex">
+             <div>
+                 <div class="h-20 flex items-center justify-center border-b">
+                       <a href="index.html" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                             <i class="fas fa-graduation-cap text-violet-500"></i>
+                             Smart Campus
+                      </a>
+                 </div>
+                 <nav class="mt-6">
+                     <a href="dashboard_stu.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                         <i class="fas fa-tachometer-alt w-6"></i>
+                         <span>Dashboard</span>
+                     </a>
+                      <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                         <i class="fas fa-book w-6"></i>
+                         <span>My Courses</span>
+                     </a>
+                     <a href="resources.html" class="sidebar-link active flex items-center py-3 px-6 text-gray-700">
+                         <i class="fas fa-folder-open w-6"></i>
+                         <span>Resources</span>
+                     </a>
+                      <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                         <i class="fas fa-calendar-check w-6"></i>
+                         <span>My Schedule</span>
+                     </a>
+                     <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-comments w-6"></i>
+                         <span>Counselling</span>
+                     </a>
+                 </nav>
+            </div>
+             <div class="p-6 border-t">
+                 <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                       <i class="fas fa-cog w-6"></i>
+                       <span>Settings</span>
+                 </a>
+                 <a href="#" id="logout-btn" class="sidebar-link flex items-center py-3 px-6 text-red-600 hover:!bg-red-50 hover:!text-red-700">
+                       <i class="fas fa-sign-out-alt w-6"></i>
+                       <span>Logout</span>
+                 </a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top bar -->
+            <header class="h-20 bg-white shadow-md flex items-center justify-between px-6 z-10">
+                 <button id="menu-toggle" class="lg:hidden">
+                       <i class="fas fa-bars text-2xl text-gray-600"></i>
+                 </button>
+                 <div class="flex items-center gap-4">
+                       <a href="resources.html" class="text-violet-600 hover:text-violet-800"><i class="fas fa-arrow-left mr-2"></i>Back to Courses</a>
+                       <h1 class="text-2xl font-bold text-gray-800 hidden md:block">System Analysis & Design</h1>
+                 </div>
+                 <div class="flex items-center gap-6">
+                       <div class="flex items-center gap-2 bg-yellow-100 text-yellow-800 font-semibold py-2 px-4 rounded-full shadow-inner">
+                             <i class="fas fa-star text-yellow-500"></i>
+                             <span>1,250 Points</span>
+                       </div>
+                       <div class="relative">
+                             <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="Profile" class="w-11 h-11 rounded-full cursor-pointer border-2 border-violet-200 hover:border-violet-400 transition-all">
+                       </div>
+                 </div>
+            </header>
+
+            <!-- Main content area -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+                <div class="container mx-auto">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2 md:mb-0">Course Materials</h2>
+                             <button id="open-upload-modal-btn" class="w-full md:w-auto font-semibold bg-violet-500 text-white py-2 px-6 rounded-lg hover:bg-violet-600 transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-xl">
+                                 <i class="fas fa-upload"></i>
+                                 <span>Upload & Earn Points</span>
+                             </button>
+                        </div>
+
+                        <!-- Resource Sections -->
+                        <div class="space-y-8">
+                            <!-- Previous Year Questions -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-700 mb-3"><i class="fas fa-history mr-2 text-blue-500"></i>Previous Year Questions</h3>
+                                <div class="divide-y">
+                                    <div class="resource-item flex items-center justify-between py-3 px-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-800">Midterm Exam - Summer 2024</p>
+                                            <p class="text-xs text-gray-500">Uploaded by: Jane Doe</p>
+                                        </div>
+                                        <div class="flex items-center gap-4 text-gray-500">
+                                            <a href="#" class="hover:text-violet-500" title="View"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="hover:text-violet-500" title="Bookmark"><i class="fas fa-bookmark"></i></a>
+                                            <a href="#" class="hover:text-violet-500" title="Download PDF"><i class="fas fa-download"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="resource-item flex items-center justify-between py-3 px-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-800">Final Exam Questions - Spring 2024</p>
+                                            <p class="text-xs text-gray-500">Uploaded by: John Smith</p>
+                                        </div>
+                                        <div class="flex items-center gap-4 text-gray-500">
+                                            <a href="#" class="hover:text-violet-500" title="View"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="hover:text-violet-500" title="Bookmark"><i class="fas fa-bookmark"></i></a>
+                                            <a href="#" class="hover:text-violet-500" title="Download PDF"><i class="fas fa-download"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Notes -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-700 mb-3"><i class="fas fa-book-open mr-2 text-green-500"></i>Student Notes</h3>
+                                <div class="divide-y">
+                                     <div class="resource-item flex items-center justify-between py-3 px-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-800">Chapter 1-5 Complete Notes</p>
+                                            <p class="text-xs text-gray-500">Uploaded by: Sifat</p>
+                                        </div>
+                                        <div class="flex items-center gap-4 text-gray-500">
+                                            <a href="#" class="hover:text-violet-500" title="View"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="hover:text-violet-500" title="Bookmark"><i class="fas fa-bookmark"></i></a>
+                                            <a href="#" class="hover:text-violet-500" title="Download PDF"><i class="fas fa-download"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- CT Questions -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-700 mb-3"><i class="fas fa-file-signature mr-2 text-red-500"></i>Class Test (CT) Questions</h3>
+                                <div class="divide-y">
+                                     <div class="resource-item flex items-center justify-between py-3 px-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-800">CT-1 & CT-2 Questions with Solutions</p>
+                                            <p class="text-xs text-gray-500">Uploaded by: Emily White</p>
+                                        </div>
+                                        <div class="flex items-center gap-4 text-gray-500">
+                                            <a href="#" class="hover:text-violet-500" title="View"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="hover:text-violet-500" title="Bookmark"><i class="fas fa-bookmark"></i></a>
+                                            <a href="#" class="hover:text-violet-500" title="Download PDF"><i class="fas fa-download"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Upload Modal -->
+    <div id="upload-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden modal-enter">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-md transform transition-all">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h2 class="text-xl font-bold text-gray-800">Upload a Resource</h2>
+                <button id="close-upload-modal-btn" class="text-gray-400 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <form class="p-6 space-y-4">
+                <div>
+                    <label for="file-title" class="block text-sm font-medium text-gray-700 mb-1">Resource Title</label>
+                    <input type="text" id="file-title" class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500" placeholder="e.g., Midterm Questions Summer 2024">
+                </div>
+                 <div>
+                    <label for="file-category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select id="file-category" class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500">
+                        <option>Previous Year Questions</option>
+                        <option>Student Notes</option>
+                        <option>Class Test (CT) Questions</option>
+                    </select>
+                </div>
+                <div>
+                     <label for="file-upload" class="block text-sm font-medium text-gray-700 mb-1">Select File (PDF only)</label>
+                     <input type="file" id="file-upload" accept=".pdf" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100">
+                </div>
+                <div class="pt-4 flex justify-end gap-3">
+                    <button type="button" id="cancel-upload-btn" class="py-2 px-4 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancel</button>
+                    <button type="submit" class="py-2 px-4 bg-violet-600 text-white rounded-lg hover:bg-violet-700">Upload & Earn 50 Points</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+             // Sidebar toggle
+             const menuToggle = document.getElementById('menu-toggle');
+             const sidebar = document.getElementById('sidebar');
+             menuToggle.addEventListener('click', () => {
+                 sidebar.classList.toggle('hidden');
+             });
+
+            // Modal Logic
+            const uploadModal = document.getElementById('upload-modal');
+            const openModalBtn = document.getElementById('open-upload-modal-btn');
+            const closeModalBtn = document.getElementById('close-upload-modal-btn');
+            const cancelUploadBtn = document.getElementById('cancel-upload-btn');
+
+            const openModal = () => {
+                uploadModal.classList.remove('hidden');
+                setTimeout(() => uploadModal.classList.add('modal-enter-active'), 50);
+            };
+            const closeModal = () => {
+                uploadModal.classList.remove('modal-enter-active');
+                setTimeout(() => uploadModal.classList.add('hidden'), 300);
+            };
+
+            openModalBtn.addEventListener('click', openModal);
+            closeModalBtn.addEventListener('click', closeModal);
+            cancelUploadBtn.addEventListener('click', closeModal);
+            uploadModal.addEventListener('click', (e) => {
+                if(e.target === uploadModal) closeModal();
+            });
+        });
+    </script>
+</body>
+</html>

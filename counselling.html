@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counselling Sessions - Smart Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #ede9fe;
+            color: #6d28d9;
+            transform: translateX(5px);
+        }
+        .faculty-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .faculty-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        /* Status Dot Animation */
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        }
+        .status-dot-available {
+            animation: pulse-green 2s infinite;
+        }
+        /* Modal Animation */
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: all 300ms ease-out; }
+        .modal-leave { opacity: 1; transform: scale(1); }
+        .modal-leave-active { opacity: 0; transform: scale(0.95); transition: all 300ms ease-in; }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #d1c4e9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b3a5d1; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Left Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg flex-col justify-between hidden lg:flex">
+             <div>
+                 <div class="h-20 flex items-center justify-center border-b">
+                       <a href="index.html" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                             <i class="fas fa-graduation-cap text-violet-500"></i>
+                             Smart Campus
+                      </a>
+                 </div>
+                 <nav class="mt-6">
+                     <a href="dashboard_stu.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                         <i class="fas fa-tachometer-alt w-6"></i>
+                         <span>Dashboard</span>
+                     </a>
+                      <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                         <i class="fas fa-book w-6"></i>
+                         <span>My Courses</span>
+                     </a>
+                     <a href="resources.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                         <i class="fas fa-folder-open w-6"></i>
+                         <span>Resources</span>
+                     </a>
+                      <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                         <i class="fas fa-calendar-check w-6"></i>
+                         <span>My Schedule</span>
+                     </a>
+                     <a href="counselling.html" class="sidebar-link active flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-comments w-6"></i>
+                         <span>Counselling</span>
+                     </a>
+                 </nav>
+            </div>
+             <div class="p-6 border-t">
+                 <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                       <i class="fas fa-cog w-6"></i>
+                       <span>Settings</span>
+                 </a>
+                 <a href="#" id="logout-btn" class="sidebar-link flex items-center py-3 px-6 text-red-600 hover:!bg-red-50 hover:!text-red-700">
+                       <i class="fas fa-sign-out-alt w-6"></i>
+                       <span>Logout</span>
+                 </a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top bar -->
+            <header class="h-20 bg-white shadow-md flex items-center justify-between px-6 z-10">
+                 <button id="menu-toggle" class="lg:hidden">
+                       <i class="fas fa-bars text-2xl text-gray-600"></i>
+                 </button>
+                 <div class="hidden lg:block">
+                     <h1 class="text-2xl font-bold text-gray-800">Request Counselling</h1>
+                 </div>
+                 <div class="flex items-center gap-4">
+                       <div class="flex items-center gap-2 bg-yellow-100 text-yellow-800 font-semibold py-2 px-4 rounded-full shadow-inner">
+                             <i class="fas fa-star text-yellow-500"></i>
+                             <span>1,250 Points</span>
+                       </div>
+                       <div class="relative">
+                             <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="Profile" class="w-11 h-11 rounded-full cursor-pointer border-2 border-violet-200 hover:border-violet-400 transition-all">
+                       </div>
+                       <button id="update-toggle" class="xl:hidden">
+                           <i class="fas fa-bell text-2xl text-gray-600"></i>
+                       </button>
+                 </div>
+            </header>
+
+            <!-- Main content area -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+                <div class="container mx-auto">
+                    <!-- Faculty Cards -->
+                    <div id="faculty-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-6">
+                        
+                        <!-- Faculty Card 1 -->
+                        <div class="faculty-card bg-white p-6 rounded-lg shadow-md flex flex-col" data-faculty="Dr. Suman Ahmed" data-course="System Analysis & Design">
+                            <div class="flex items-center mb-4">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZmFjdWx0eXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=80&q=60" alt="Dr. Suman Ahmed" class="w-20 h-20 rounded-full mr-4 border-2 border-violet-200 object-cover">
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800">Dr. Suman Ahmed</h3>
+                                    <p class="text-gray-600">System Analysis & Design</p>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="flex items-center text-green-600 font-semibold mb-2">
+                                    <span class="h-3 w-3 bg-green-500 rounded-full mr-2 status-dot-available"></span>
+                                    Available Now
+                                </div>
+                                <p class="text-sm text-gray-500"><span class="font-semibold">Free Slots:</span> Mon 2-4 PM, Wed 10-11 AM</p>
+                            </div>
+                            <div class="mt-auto pt-4 border-t border-gray-200 text-center">
+                                <button class="request-btn w-full font-semibold bg-violet-500 text-white py-2 px-6 rounded-lg hover:bg-violet-600 transition-colors">Request Session</button>
+                                <div class="pending-state hidden">
+                                    <p class="text-sm text-yellow-600 font-semibold mb-2"><i class="fas fa-clock mr-2"></i>Request Pending...</p>
+                                    <button class="cancel-btn w-full text-sm font-semibold bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">Cancel Request</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Faculty Card 2 -->
+                         <div class="faculty-card bg-white p-6 rounded-lg shadow-md flex flex-col" data-faculty="Saima Islam" data-course="Database Management">
+                            <div class="flex items-center mb-4">
+                                <img src="https://images.unsplash.com/photo-1580894742491-91a99597d3f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZlbWFsZSUyMHRlYWNoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=80&q=60" alt="Saima Islam" class="w-20 h-20 rounded-full mr-4 border-2 border-indigo-200 object-cover">
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800">Saima Islam</h3>
+                                    <p class="text-gray-600">Database Management</p>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="flex items-center text-gray-500 font-semibold mb-2">
+                                    <span class="h-3 w-3 bg-gray-400 rounded-full mr-2"></span>
+                                    Unavailable
+                                </div>
+                                <p class="text-sm text-gray-500"><span class="font-semibold">Free Slots:</span> Tue 11 AM - 1 PM</p>
+                            </div>
+                            <div class="mt-auto pt-4 border-t border-gray-200 text-center">
+                                <button class="request-btn w-full font-semibold bg-violet-500 text-white py-2 px-6 rounded-lg hover:bg-violet-600 transition-colors">Request Session</button>
+                                <div class="pending-state hidden">
+                                    <p class="text-sm text-yellow-600 font-semibold mb-2"><i class="fas fa-clock mr-2"></i>Request Pending...</p>
+                                    <button class="cancel-btn w-full text-sm font-semibold bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">Cancel Request</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Faculty Card 3 -->
+                         <div class="faculty-card bg-white p-6 rounded-lg shadow-md flex flex-col" data-faculty="Osama Haque" data-course="Web Technologies">
+                            <div class="flex items-center mb-4">
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2Zlc3Npb25hbCUyMG1hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=80&q=60" alt="Osama Haque" class="w-20 h-20 rounded-full mr-4 border-2 border-green-200 object-cover">
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800">Osama Haque</h3>
+                                    <p class="text-gray-600">Web Technologies</p>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="flex items-center text-green-600 font-semibold mb-2">
+                                    <span class="h-3 w-3 bg-green-500 rounded-full mr-2 status-dot-available"></span>
+                                    Available Now
+                                </div>
+                                <p class="text-sm text-gray-500"><span class="font-semibold">Free Slots:</span> Tue 3-5 PM, Thu 1-2 PM</p>
+                            </div>
+                            <div class="mt-auto pt-4 border-t border-gray-200 text-center">
+                                <button class="request-btn w-full font-semibold bg-violet-500 text-white py-2 px-6 rounded-lg hover:bg-violet-600 transition-colors">Request Session</button>
+                                <div class="pending-state hidden">
+                                    <p class="text-sm text-yellow-600 font-semibold mb-2"><i class="fas fa-clock mr-2"></i>Request Pending...</p>
+                                    <button class="cancel-btn w-full text-sm font-semibold bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">Cancel Request</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Faculty Card 4 -->
+                         <div class="faculty-card bg-white p-6 rounded-lg shadow-md flex flex-col" data-faculty="Sahriar Sarkar" data-course="Data Structures">
+                            <div class="flex items-center mb-4">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBvcnRyYWl0fGVufDB8fDB8fHww&auto=format&fit=crop&w=80&q=60" alt="Sahriar Sarkar" class="w-20 h-20 rounded-full mr-4 border-2 border-red-200 object-cover">
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800">Sahriar Sarkar</h3>
+                                    <p class="text-gray-600">Data Structures</p>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="flex items-center text-gray-500 font-semibold mb-2">
+                                    <span class="h-3 w-3 bg-gray-400 rounded-full mr-2"></span>
+                                    Unavailable
+                                </div>
+                                <p class="text-sm text-gray-500"><span class="font-semibold">Free Slots:</span> Mon 11 AM - 12 PM</p>
+                            </div>
+                            <div class="mt-auto pt-4 border-t border-gray-200 text-center">
+                                <button class="request-btn w-full font-semibold bg-violet-500 text-white py-2 px-6 rounded-lg hover:bg-violet-600 transition-colors">Request Session</button>
+                                <div class="pending-state hidden">
+                                    <p class="text-sm text-yellow-600 font-semibold mb-2"><i class="fas fa-clock mr-2"></i>Request Pending...</p>
+                                    <button class="cancel-btn w-full text-sm font-semibold bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">Cancel Request</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Faculty Card 5 -->
+                         <div class="faculty-card bg-white p-6 rounded-lg shadow-md flex flex-col" data-faculty="Sadman Aadeeb" data-course="Discrete Mathematics">
+                            <div class="flex items-center mb-4">
+                                <img src="https://images.unsplash.com/photo-1615109398623-88346a601842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fG1hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=80&q=60" alt="Sadman Aadeeb" class="w-20 h-20 rounded-full mr-4 border-2 border-yellow-200 object-cover">
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800">Sadman Aadeeb</h3>
+                                    <p class="text-gray-600">Discrete Mathematics</p>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="flex items-center text-gray-500 font-semibold mb-2">
+                                    <span class="h-3 w-3 bg-gray-400 rounded-full mr-2"></span>
+                                    Unavailable
+                                </div>
+                                <p class="text-sm text-gray-500"><span class="font-semibold">Free Slots:</span> Fri 9-11 AM</p>
+                            </div>
+                            <div class="mt-auto pt-4 border-t border-gray-200 text-center">
+                                <button class="request-btn w-full font-semibold bg-violet-500 text-white py-2 px-6 rounded-lg hover:bg-violet-600 transition-colors">Request Session</button>
+                                <div class="pending-state hidden">
+                                    <p class="text-sm text-yellow-600 font-semibold mb-2"><i class="fas fa-clock mr-2"></i>Request Pending...</p>
+                                    <button class="cancel-btn w-full text-sm font-semibold bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">Cancel Request</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Right Sidebar for Updates -->
+        <aside id="update-sidebar" class="w-80 bg-white shadow-lg flex-col justify-between hidden xl:flex overflow-y-auto">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 border-b pb-4">Session Updates</h2>
+                
+                <!-- Pending Requests -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3">Pending Requests</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-yellow-50 rounded-lg">
+                            <p class="font-semibold text-gray-800">Dr. Suman Ahmed</p>
+                            <p class="text-sm text-gray-600 truncate">Topic: 3NF Normalization</p>
+                            <button class="text-xs text-red-600 hover:underline mt-1">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Accepted Sessions -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3">Accepted Sessions</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-green-50 rounded-lg">
+                            <p class="font-semibold text-gray-800">Saima Islam</p>
+                            <p class="text-sm text-gray-600 truncate">Topic: SQL Joins</p>
+                            <p class="text-sm font-bold text-green-700 mt-1">Time: Mon, 2:30 PM</p>
+                            <button class="w-full mt-2 text-sm font-semibold bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors">Join Meet</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rejected Requests -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3">Rejected Requests</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-red-50 rounded-lg">
+                            <p class="font-semibold text-gray-800">Sadman Aadeeb</p>
+                            <p class="text-sm text-gray-600 truncate">Topic: Big O Notation</p>
+                            <p class="text-xs text-red-600 mt-1">Reason: Faculty unavailable.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+    
+    <!-- Request Modal -->
+    <div id="request-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden modal-enter">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg transform transition-all">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h2 id="modal-title" class="text-xl font-bold text-gray-800">Request a Session</h2>
+                <button id="close-request-modal-btn" class="text-gray-400 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <form id="request-form" class="p-6 space-y-4">
+                <div>
+                    <label for="request-topic" class="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+                    <input type="text" id="request-topic" class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500" placeholder="e.g., Database Normalization" required>
+                </div>
+                 <div>
+                    <label for="request-problem" class="block text-sm font-medium text-gray-700 mb-1">Briefly describe your problem</label>
+                    <textarea id="request-problem" rows="4" class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500" placeholder="I'm having trouble understanding 3NF..." required></textarea>
+                </div>
+                <div>
+                    <label for="request-attachments" class="block text-sm font-medium text-gray-700 mb-1">Attachments (Optional)</label>
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                        <div class="space-y-1 text-center">
+                            <i class="fas fa-paperclip text-4xl text-gray-400"></i>
+                            <div class="flex text-sm text-gray-600">
+                                <label for="request-attachments-input" class="relative cursor-pointer bg-white rounded-md font-medium text-violet-600 hover:text-violet-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-violet-500">
+                                    <span>Upload files</span>
+                                    <input id="request-attachments-input" name="attachments" type="file" class="sr-only" multiple accept=".pdf,.png,.jpg,.jpeg">
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-500">PDF, PNG, JPG up to 10MB</p>
+                        </div>
+                    </div>
+                    <div id="file-list" class="mt-2 text-sm text-gray-600 space-y-2"></div>
+                </div>
+                <div class="pt-4 flex justify-end gap-3">
+                    <button type="button" id="cancel-request-btn" class="py-2 px-4 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancel</button>
+                    <button type="submit" class="py-2 px-4 bg-violet-600 text-white rounded-lg hover:bg-violet-700">Send Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+             // Sidebar toggles
+             const menuToggle = document.getElementById('menu-toggle');
+             const sidebar = document.getElementById('sidebar');
+             const updateToggle = document.getElementById('update-toggle');
+             const updateSidebar = document.getElementById('update-sidebar');
+
+             menuToggle.addEventListener('click', () => {
+                 sidebar.classList.toggle('hidden');
+             });
+             updateToggle.addEventListener('click', () => {
+                 updateSidebar.classList.toggle('hidden');
+             });
+
+
+            // Modal Logic
+            const requestModal = document.getElementById('request-modal');
+            const closeModalBtn = document.getElementById('close-request-modal-btn');
+            const cancelModalBtn = document.getElementById('cancel-request-btn');
+            const requestForm = document.getElementById('request-form');
+            const modalTitle = document.getElementById('modal-title');
+            const fileInput = document.getElementById('request-attachments-input');
+            const fileList = document.getElementById('file-list');
+            let activeCard = null;
+
+            const openModal = (card) => {
+                activeCard = card;
+                const facultyName = card.dataset.faculty;
+                modalTitle.textContent = `Request a session with ${facultyName}`;
+                requestModal.classList.remove('hidden');
+                setTimeout(() => requestModal.classList.add('modal-enter-active'), 50);
+            };
+
+            const closeModal = () => {
+                requestModal.classList.remove('modal-enter-active');
+                setTimeout(() => {
+                    requestModal.classList.add('hidden');
+                    requestForm.reset();
+                    fileList.innerHTML = ''; // Clear file list
+                    activeCard = null;
+                }, 300);
+            };
+            
+            closeModalBtn.addEventListener('click', closeModal);
+            cancelModalBtn.addEventListener('click', closeModal);
+            requestModal.addEventListener('click', (e) => {
+                if(e.target === requestModal) closeModal();
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                fileList.innerHTML = ''; // Clear previous list
+                if (e.target.files.length > 0) {
+                    for (const file of e.target.files) {
+                        const fileItem = document.createElement('div');
+                        fileItem.className = 'flex items-center justify-between bg-gray-100 p-2 rounded-md text-xs';
+                        fileItem.innerHTML = `<span class="truncate">${file.name}</span>`;
+                        fileList.appendChild(fileItem);
+                    }
+                }
+            });
+
+            // Handle card interactions
+            document.querySelectorAll('.faculty-card').forEach(card => {
+                const requestBtn = card.querySelector('.request-btn');
+                const cancelBtn = card.querySelector('.cancel-btn');
+                const pendingState = card.querySelector('.pending-state');
+
+                requestBtn.addEventListener('click', () => {
+                    openModal(card);
+                });
+
+                cancelBtn.addEventListener('click', () => {
+                    pendingState.classList.add('hidden');
+                    requestBtn.classList.remove('hidden');
+                });
+            });
+
+            // Handle form submission
+            requestForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (activeCard) {
+                    const requestBtn = activeCard.querySelector('.request-btn');
+                    const pendingState = activeCard.querySelector('.pending-state');
+                    requestBtn.classList.add('hidden');
+                    pendingState.classList.remove('hidden');
+                }
+                closeModal();
+            });
+        });
+    </script>
+</body>
+</html>

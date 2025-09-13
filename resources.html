@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Resources - Smart Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #ede9fe;
+            color: #6d28d9;
+            transform: translateX(5px);
+        }
+        .course-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .grid-view .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .view-toggle-btn.active {
+            background-color: #6d28d9;
+            color: white;
+        }
+
+        /* List View Styles */
+        .list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem; /* 12px */
+        }
+        .list-view .course-card {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+        }
+        .list-view .course-card > div:first-child { /* Icon container */
+             margin-bottom: 0;
+             width: 3rem; /* 48px */
+             height: 3rem; /* 48px */
+             flex-shrink: 0;
+        }
+        .list-view .course-card > div:first-child .fas { /* Icon */
+            font-size: 1.5rem; /* 24px */
+        }
+        .list-view .course-card .course-info {
+            flex-grow: 1;
+            margin-left: 1rem;
+            text-align: left;
+        }
+        .list-view .course-card h3 {
+             margin-bottom: 0;
+        }
+        .list-view .course-card:hover {
+            background-color: #f9fafb;
+        }
+        .list-view .course-card p {
+            display: none; /* Hide original resource count in list view */
+        }
+        .list-view .list-view-resources {
+            display: block; /* Show new resource count for list view */
+            flex-shrink: 0;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        .list-view-resources {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg flex-col justify-between hidden lg:flex">
+            <div>
+                <div class="h-20 flex items-center justify-center border-b">
+                     <a href="index.html" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                         <i class="fas fa-graduation-cap text-violet-500"></i>
+                         Smart Campus
+                    </a>
+                </div>
+                <nav class="mt-6">
+                    <a href="dashboard_stu.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-tachometer-alt w-6"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-book w-6"></i>
+                        <span>My Courses</span>
+                    </a>
+                    <a href="resources.html" class="sidebar-link active flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-folder-open w-6"></i>
+                        <span>Resources</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-calendar-check w-6"></i>
+                        <span>My Schedule</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                       <i class="fas fa-comments w-6"></i>
+                        <span>Counselling</span>
+                    </a>
+                </nav>
+            </div>
+             <div class="p-6 border-t">
+                 <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                     <i class="fas fa-cog w-6"></i>
+                     <span>Settings</span>
+                 </a>
+                 <a href="#" id="logout-btn" class="sidebar-link flex items-center py-3 px-6 text-red-600 hover:!bg-red-50 hover:!text-red-700">
+                     <i class="fas fa-sign-out-alt w-6"></i>
+                     <span>Logout</span>
+                 </a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top bar -->
+            <header class="h-20 bg-white shadow-md flex items-center justify-between px-6 z-10">
+                 <button id="menu-toggle" class="lg:hidden">
+                     <i class="fas fa-bars text-2xl text-gray-600"></i>
+                 </button>
+                 <div class="hidden lg:block">
+                     <h1 class="text-2xl font-bold text-gray-800">Academic Resources</h1>
+                 </div>
+                 <div class="flex items-center gap-6">
+                     <div class="flex items-center gap-2 bg-yellow-100 text-yellow-800 font-semibold py-2 px-4 rounded-full shadow-inner">
+                         <i class="fas fa-star text-yellow-500"></i>
+                         <span>1,250 Points</span>
+                     </div>
+                     <div class="relative">
+                         <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG9_by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="Profile" class="w-11 h-11 rounded-full cursor-pointer border-2 border-violet-200 hover:border-violet-400 transition-all">
+                     </div>
+                 </div>
+            </header>
+
+            <!-- Main content area -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+                <div class="container mx-auto">
+                    <!-- Search and View Toggle -->
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                        <div class="relative w-full md:w-auto flex-grow">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </span>
+                            <input type="text" id="course-search" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Search for a course...">
+                        </div>
+                        <div class="flex-shrink-0 bg-gray-200 rounded-lg p-1 flex">
+                            <button id="grid-view-btn" class="view-toggle-btn active p-2 rounded-md transition-colors" title="Grid View">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button id="list-view-btn" class="view-toggle-btn p-2 rounded-md text-gray-600 transition-colors" title="List View">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Course Items -->
+                    <div id="course-container" class="grid-view grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        
+                        <a href="resources_detail.html" class="course-card block bg-white p-6 rounded-lg shadow-md" data-title="System Analysis & Design">
+                            <div class="flex items-center justify-center w-16 h-16 rounded-full bg-violet-100 text-violet-500 mb-4">
+                                <i class="fas fa-sitemap text-3xl"></i>
+                            </div>
+                            <div class="course-info">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">System Analysis & Design</h3>
+                                <p class="text-sm text-gray-500">18 Resources Available</p>
+                            </div>
+                            <span class="list-view-resources">18 Resources</span>
+                        </a>
+
+                        <a href="resources_detail.html" class="course-card block bg-white p-6 rounded-lg shadow-md" data-title="Database Management">
+                            <div class="flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-500 mb-4">
+                                <i class="fas fa-database text-3xl"></i>
+                            </div>
+                             <div class="course-info">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Database Management</h3>
+                                <p class="text-sm text-gray-500">25 Resources Available</p>
+                            </div>
+                             <span class="list-view-resources">25 Resources</span>
+                        </a>
+
+                        <a href="resources_detail.html" class="course-card block bg-white p-6 rounded-lg shadow-md" data-title="Web Technologies">
+                            <div class="flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-500 mb-4">
+                                <i class="fas fa-code text-3xl"></i>
+                            </div>
+                            <div class="course-info">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Web Technologies</h3>
+                                <p class="text-sm text-gray-500">32 Resources Available</p>
+                            </div>
+                            <span class="list-view-resources">32 Resources</span>
+                        </a>
+                        
+                        <a href="resources_detail.html" class="course-card block bg-white p-6 rounded-lg shadow-md" data-title="Data Structures">
+                            <div class="flex items-center justify-center w-16 h-16 rounded-full bg-red-100 text-red-500 mb-4">
+                                <i class="fas fa-project-diagram text-3xl"></i>
+                            </div>
+                            <div class="course-info">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Data Structures</h3>
+                                <p class="text-sm text-gray-500">41 Resources Available</p>
+                            </div>
+                            <span class="list-view-resources">41 Resources</span>
+                        </a>
+                        
+                        <a href="resources_detail.html" class="course-card block bg-white p-6 rounded-lg shadow-md" data-title="Algorithms Lab">
+                            <div class="flex items-center justify-center w-16 h-16 rounded-full bg-yellow-100 text-yellow-500 mb-4">
+                                <i class="fas fa-flask text-3xl"></i>
+                            </div>
+                            <div class="course-info">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Algorithms Lab</h3>
+                                <p class="text-sm text-gray-500">22 Resources Available</p>
+                            </div>
+                            <span class="list-view-resources">22 Resources</span>
+                        </a>
+
+                        <a href="resources_detail.html" class="course-card block bg-white p-6 rounded-lg shadow-md" data-title="English 101">
+                            <div class="flex items-center justify-center w-16 h-16 rounded-full bg-pink-100 text-pink-500 mb-4">
+                                <i class="fas fa-language text-3xl"></i>
+                            </div>
+                            <div class="course-info">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">English 101</h3>
+                                <p class="text-sm text-gray-500">12 Resources Available</p>
+                            </div>
+                            <span class="list-view-resources">12 Resources</span>
+                        </a>
+
+                        <a href="resources_detail.html" class="course-card block bg-white p-6 rounded-lg shadow-md" data-title="Discrete Mathematics">
+                            <div class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 text-indigo-500 mb-4">
+                                <i class="fas fa-calculator text-3xl"></i>
+                            </div>
+                            <div class="course-info">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Discrete Mathematics</h3>
+                                <p class="text-sm text-gray-500">28 Resources Available</p>
+                            </div>
+                            <span class="list-view-resources">28 Resources</span>
+                        </a>
+
+                        <a href="resources_detail.html" class="course-card block bg-white p-6 rounded-lg shadow-md" data-title="Electronics">
+                            <div class="flex items-center justify-center w-16 h-16 rounded-full bg-teal-100 text-teal-500 mb-4">
+                                <i class="fas fa-microchip text-3xl"></i>
+                            </div>
+                            <div class="course-info">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Electronics</h3>
+                                <p class="text-sm text-gray-500">15 Resources Available</p>
+                            </div>
+                            <span class="list-view-resources">15 Resources</span>
+                        </a>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('course-search');
+            const courseContainer = document.getElementById('course-container');
+            const courses = Array.from(courseContainer.children);
+            const gridViewBtn = document.getElementById('grid-view-btn');
+            const listViewBtn = document.getElementById('list-view-btn');
+
+            // Search functionality
+            searchInput.addEventListener('keyup', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                courses.forEach(course => {
+                    const title = course.dataset.title.toLowerCase();
+                    if (title.includes(searchTerm)) {
+                        course.style.display = courseContainer.classList.contains('list-view') ? 'flex' : 'block';
+                    } else {
+                        course.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Grid view toggle
+            gridViewBtn.addEventListener('click', () => {
+                courseContainer.classList.add('grid-view', 'grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'xl:grid-cols-4', 'gap-6');
+                courseContainer.classList.remove('list-view');
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active', 'text-gray-600');
+                listViewBtn.classList.add('text-gray-600');
+            });
+
+            // List view toggle
+            listViewBtn.addEventListener('click', () => {
+                courseContainer.classList.remove('grid-view', 'grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'xl:grid-cols-4', 'gap-6');
+                courseContainer.classList.add('list-view');
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+                gridViewBtn.classList.add('text-gray-600');
+            });
+
+            // Sidebar toggle
+             const menuToggle = document.getElementById('menu-toggle');
+             const sidebar = document.getElementById('sidebar');
+             menuToggle.addEventListener('click', () => {
+                 sidebar.classList.toggle('hidden');
+             });
+        });
+    </script>
+</body>
+</html>

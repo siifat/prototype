@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Resources - Smart Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #ede9fe;
+            color: #6d28d9;
+            transform: translateX(5px);
+        }
+        .resource-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .resource-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .resource-card .icon {
+            transition: all 0.3s ease-in-out;
+        }
+        .resource-card:hover .icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+        .resource-card h3 {
+            transition: color 0.3s ease-in-out;
+        }
+        .resource-card:hover h3 {
+            color: #6d28d9;
+        }
+        .text-hover-effect {
+            position: relative;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+
+        .text-hover-effect::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #8b5cf6;
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+
+        .resource-card:hover .text-hover-effect::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Left Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg flex-col justify-between hidden lg:flex">
+             <div>
+                 <div class="h-20 flex items-center justify-center border-b">
+                       <a href="index.html" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                             <i class="fas fa-graduation-cap text-violet-500"></i>
+                             Smart Campus
+                      </a>
+                 </div>
+                 <nav class="mt-6">
+                     <a href="dashboard_stu.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                         <i class="fas fa-tachometer-alt w-6"></i>
+                         <span>Dashboard</span>
+                     </a>
+                      <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                         <i class="fas fa-book w-6"></i>
+                         <span>My Courses</span>
+                     </a>
+                     <a href="study_resources.html" class="sidebar-link active flex items-center py-3 px-6 text-gray-700">
+                         <i class="fas fa-folder-open w-6"></i>
+                         <span>Resources</span>
+                     </a>
+                      <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                         <i class="fas fa-calendar-check w-6"></i>
+                         <span>My Schedule</span>
+                     </a>
+                     <a href="counselling.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-comments w-6"></i>
+                         <span>Counselling</span>
+                     </a>
+                 </nav>
+            </div>
+             <div class="p-6 border-t">
+                 <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                       <i class="fas fa-cog w-6"></i>
+                       <span>Settings</span>
+                 </a>
+                 <a href="#" id="logout-btn" class="sidebar-link flex items-center py-3 px-6 text-red-600 hover:!bg-red-50 hover:!text-red-700">
+                       <i class="fas fa-sign-out-alt w-6"></i>
+                       <span>Logout</span>
+                 </a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top bar -->
+            <header class="h-20 bg-white shadow-md flex items-center justify-between px-6 z-10">
+                 <button id="menu-toggle" class="lg:hidden">
+                       <i class="fas fa-bars text-2xl text-gray-600"></i>
+                 </button>
+                 <div class="hidden lg:block">
+                     <h1 class="text-2xl font-bold text-gray-800">Study Resources</h1>
+                 </div>
+                 <div class="flex items-center gap-4">
+                       <div class="flex items-center gap-2 bg-yellow-100 text-yellow-800 font-semibold py-2 px-4 rounded-full shadow-inner">
+                             <i class="fas fa-star text-yellow-500"></i>
+                             <span>1,250 Points</span>
+                       </div>
+                       <div class="relative">
+                             <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="Profile" class="w-11 h-11 rounded-full cursor-pointer border-2 border-violet-200 hover:border-violet-400 transition-all">
+                       </div>
+                 </div>
+            </header>
+
+            <!-- Main content area -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6 md:p-8">
+                <div class="container mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <!-- YouTube Card -->
+                        <a href="https://youtube.com/@uiudoc7997?si=W8BZb15o6Twjrheo" target="_blank" class="resource-card block bg-white rounded-xl shadow-lg p-8 text-center">
+                            <div class="icon text-6xl text-red-500 mb-5">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2"><span class="text-hover-effect">YouTube Channel</span></h3>
+                            <p class="text-gray-600">Video lectures and academic tutorials curated for you.</p>
+                        </a>
+
+                        <!-- Question Bank and Notes Card -->
+                        <a href="resources.html" class="resource-card block bg-white rounded-xl shadow-lg p-8 text-center">
+                            <div class="icon text-6xl text-blue-500 mb-5">
+                                <i class="fas fa-archive"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2"><span class="text-hover-effect">Question Bank & Notes</span></h3>
+                            <p class="text-gray-600">Access a wide range of crowd-sourced study materials.</p>
+                        </a>
+
+                        <!-- Tahseen Parvez Google Sheet Card -->
+                        <a href="#" class="resource-card block bg-white rounded-xl shadow-lg p-8 text-center">
+                            <div class="icon text-6xl text-green-500 mb-5">
+                                <i class="fas fa-sheet-plastic"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2"><span class="text-hover-effect">Tahseen Parvez's Sheet</span></h3>
+                            <p class="text-gray-600">A curated collection of essential academic resources.</p>
+                        </a>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+           // Sidebar toggle
+           const menuToggle = document.getElementById('menu-toggle');
+           const sidebar = document.getElementById('sidebar');
+           menuToggle.addEventListener('click', () => {
+               sidebar.classList.toggle('hidden');
+           });
+        });
+   </script>
+</body>
+</html>

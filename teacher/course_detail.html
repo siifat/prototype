@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details - Smart Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1c4e9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b3a5d1;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #ede9fe;
+            color: #6d28d9;
+            transform: translateX(5px);
+        }
+        .tab-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .tab-btn.active {
+            background-color: #7c3aed;
+            color: white;
+        }
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: all 300ms ease-out; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg flex-col justify-between hidden lg:flex transition-all duration-300">
+            <div>
+                <div class="h-20 flex items-center justify-center border-b">
+                    <a href="../index.html" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-graduation-cap text-violet-500"></i>
+                        Smart Campus
+                    </a>
+                </div>
+                <nav class="mt-6">
+                    <a href="dashboard_teacher.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-tachometer-alt w-6"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="courses.html" class="sidebar-link active flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-book w-6"></i>
+                        <span>My Courses</span>
+                    </a>
+                    <a href="students.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-users w-6"></i>
+                        <span>Students</span>
+                    </a>
+                    <a href="assignments.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-clipboard-list w-6"></i>
+                        <span>Assignments</span>
+                    </a>
+                    <a href="counselling.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-comments w-6"></i>
+                        <span>Counselling</span>
+                    </a>
+                    <a href="schedule.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-calendar-check w-6"></i>
+                        <span>Schedule</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="p-6 border-t">
+                <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                    <i class="fas fa-cog w-6"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" id="logout-btn" class="sidebar-link flex items-center py-3 px-6 text-red-600 hover:!bg-red-50 hover:!text-red-700">
+                    <i class="fas fa-sign-out-alt w-6"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top bar -->
+            <header class="h-20 bg-white shadow-md flex items-center justify-between px-6 z-10">
+                <button id="menu-toggle" class="lg:hidden">
+                    <i class="fas fa-bars text-2xl text-gray-600"></i>
+                </button>
+                <div class="flex items-center gap-4">
+                    <a href="courses.html" class="text-violet-600 hover:text-violet-800">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Courses
+                    </a>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="relative">
+                        <button class="relative">
+                            <i class="fas fa-bell text-2xl text-gray-600 hover:text-violet-600 transition-colors"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="Profile" class="w-11 h-11 rounded-full cursor-pointer border-2 border-violet-200 hover:border-violet-400 transition-all">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main content area -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+                <div class="container mx-auto">
+                    
+                    <!-- Course Header -->
+                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-lg p-8 mb-6 text-white">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div>
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="text-3xl font-bold">CSE 321</span>
+                                    <span class="px-3 py-1 bg-white bg-opacity-20 rounded-full text-sm">Section A</span>
+                                </div>
+                                <h1 class="text-3xl font-bold mb-2">Database Management</h1>
+                                <p class="text-blue-100">Summer 2025 • Mon, Wed 8:00-9:30 AM • Room 401</p>
+                            </div>
+                            <div class="flex gap-3">
+                                <button id="upload-material-btn" class="px-4 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors">
+                                    <i class="fas fa-upload mr-2"></i>Upload Material
+                                </button>
+                                <button id="create-assignment-btn" class="px-4 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors">
+                                    <i class="fas fa-plus mr-2"></i>New Assignment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Total Students</p>
+                                    <p class="text-3xl font-bold text-gray-800 mt-1">45</p>
+                                </div>
+                                <div class="bg-blue-100 p-3 rounded-full">
+                                    <i class="fas fa-users text-blue-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Assignments</p>
+                                    <p class="text-3xl font-bold text-gray-800 mt-1">8</p>
+                                </div>
+                                <div class="bg-green-100 p-3 rounded-full">
+                                    <i class="fas fa-clipboard-list text-green-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Resources</p>
+                                    <p class="text-3xl font-bold text-gray-800 mt-1">23</p>
+                                </div>
+                                <div class="bg-orange-100 p-3 rounded-full">
+                                    <i class="fas fa-folder text-orange-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Avg. Attendance</p>
+                                    <p class="text-3xl font-bold text-gray-800 mt-1">92%</p>
+                                </div>
+                                <div class="bg-purple-100 p-3 rounded-full">
+                                    <i class="fas fa-chart-line text-purple-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="bg-white rounded-lg shadow-md mb-6">
+                        <div class="border-b flex overflow-x-auto">
+                            <button class="tab-btn active px-6 py-4 font-semibold text-gray-700" data-tab="overview">
+                                <i class="fas fa-info-circle mr-2"></i>Overview
+                            </button>
+                            <button class="tab-btn px-6 py-4 font-semibold text-gray-700" data-tab="students">
+                                <i class="fas fa-users mr-2"></i>Students
+                            </button>
+                            <button class="tab-btn px-6 py-4 font-semibold text-gray-700" data-tab="assignments">
+                                <i class="fas fa-clipboard-list mr-2"></i>Assignments
+                            </button>
+                            <button class="tab-btn px-6 py-4 font-semibold text-gray-700" data-tab="materials">
+                                <i class="fas fa-folder mr-2"></i>Materials
+                            </button>
+                            <button class="tab-btn px-6 py-4 font-semibold text-gray-700" data-tab="analytics">
+                                <i class="fas fa-chart-bar mr-2"></i>Analytics
+                            </button>
+                        </div>
+
+                        <!-- Overview Tab Content -->
+                        <div id="overview-content" class="tab-content p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">Course Description</h3>
+                            <p class="text-gray-600 mb-6">This course provides a comprehensive introduction to database management systems. Topics include data modeling, relational database design, SQL programming, normalization, transaction processing, and database administration. Students will gain hands-on experience with modern database systems.</p>
+                            
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">Learning Outcomes</h3>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span class="text-gray-600">Design and implement relational databases using ER modeling</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span class="text-gray-600">Write complex SQL queries for data manipulation and retrieval</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span class="text-gray-600">Apply normalization techniques to optimize database schemas</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span class="text-gray-600">Understand transaction management and concurrency control</span>
+                                </li>
+                            </ul>
+
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">Grading Policy</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-700">Assignments</span>
+                                        <span class="text-blue-600 font-bold">30%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-blue-600 h-2 rounded-full" style="width: 30%"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-700">Midterm Exam</span>
+                                        <span class="text-green-600 font-bold">30%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-green-600 h-2 rounded-full" style="width: 30%"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-700">Final Exam</span>
+                                        <span class="text-orange-600 font-bold">35%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-orange-600 h-2 rounded-full" style="width: 35%"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-700">Attendance</span>
+                                        <span class="text-purple-600 font-bold">5%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-purple-600 h-2 rounded-full" style="width: 5%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Students Tab Content -->
+                        <div id="students-content" class="tab-content p-6 hidden">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold text-gray-800">Student List (45)</h3>
+                                <div class="flex gap-3">
+                                    <input type="text" placeholder="Search students..." class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent">
+                                    <button class="px-4 py-2 bg-violet-600 text-white font-semibold rounded-lg hover:bg-violet-700">
+                                        <i class="fas fa-download mr-2"></i>Export List
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attendance</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Grade</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=80&q=80" alt="">
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-900">Sifat Ahmed</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2021-1-60-123</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">sifat@example.com</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">95%</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">A</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <button class="text-violet-600 hover:text-violet-900">View Details</button>
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=80&q=80" alt="">
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-900">Nusrat Jahan</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2021-1-60-145</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">nusrat@example.com</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">92%</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">A-</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <button class="text-violet-600 hover:text-violet-900">View Details</button>
+                                            </td>
+                                        </tr>
+                                        <!-- Add more students as needed -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Assignments Tab Content -->
+                        <div id="assignments-content" class="tab-content p-6 hidden">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold text-gray-800">Assignments (8)</h3>
+                                <button id="new-assignment-btn" class="px-4 py-2 bg-violet-600 text-white font-semibold rounded-lg hover:bg-violet-700">
+                                    <i class="fas fa-plus mr-2"></i>Create Assignment
+                                </button>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
+                                    <div class="flex justify-between items-start">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold text-gray-800 mb-2">Database Normalization Assignment</h4>
+                                            <p class="text-sm text-gray-600 mb-3">Apply normalization techniques to the given database schema</p>
+                                            <div class="flex items-center gap-4 text-sm text-gray-500">
+                                                <span><i class="fas fa-calendar mr-1"></i>Due: Oct 11, 2025</span>
+                                                <span><i class="fas fa-user-check mr-1"></i>42/45 Submitted</span>
+                                                <span class="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold">Due Today</span>
+                                            </div>
+                                        </div>
+                                        <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm font-semibold">
+                                            View Submissions
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
+                                    <div class="flex justify-between items-start">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold text-gray-800 mb-2">SQL Query Practice</h4>
+                                            <p class="text-sm text-gray-600 mb-3">Write SQL queries to solve the given problems</p>
+                                            <div class="flex items-center gap-4 text-sm text-gray-500">
+                                                <span><i class="fas fa-calendar mr-1"></i>Due: Oct 18, 2025</span>
+                                                <span><i class="fas fa-user-check mr-1"></i>28/45 Submitted</span>
+                                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-semibold">7 Days Left</span>
+                                            </div>
+                                        </div>
+                                        <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm font-semibold">
+                                            View Submissions
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Materials Tab Content -->
+                        <div id="materials-content" class="tab-content p-6 hidden">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold text-gray-800">Course Materials (23)</h3>
+                                <button id="upload-btn" class="px-4 py-2 bg-violet-600 text-white font-semibold rounded-lg hover:bg-violet-700">
+                                    <i class="fas fa-upload mr-2"></i>Upload Material
+                                </button>
+                            </div>
+                            
+                            <div class="space-y-6">
+                                <div>
+                                    <h4 class="font-semibold text-gray-700 mb-3">Lecture Slides</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100">
+                                            <div class="flex items-center gap-3">
+                                                <i class="fas fa-file-pdf text-red-500 text-xl"></i>
+                                                <div>
+                                                    <p class="font-medium text-gray-800">Chapter 1: Introduction to Databases</p>
+                                                    <p class="text-xs text-gray-500">Uploaded on Oct 1, 2025 • 2.3 MB</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                                <button class="p-2 text-red-600 hover:bg-red-50 rounded">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100">
+                                            <div class="flex items-center gap-3">
+                                                <i class="fas fa-file-pdf text-red-500 text-xl"></i>
+                                                <div>
+                                                    <p class="font-medium text-gray-800">Chapter 2: Relational Model</p>
+                                                    <p class="text-xs text-gray-500">Uploaded on Oct 3, 2025 • 3.1 MB</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                                <button class="p-2 text-red-600 hover:bg-red-50 rounded">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 class="font-semibold text-gray-700 mb-3">Lab Materials</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100">
+                                            <div class="flex items-center gap-3">
+                                                <i class="fas fa-file-code text-green-500 text-xl"></i>
+                                                <div>
+                                                    <p class="font-medium text-gray-800">SQL Practice Queries.sql</p>
+                                                    <p class="text-xs text-gray-500">Uploaded on Oct 5, 2025 • 45 KB</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                                <button class="p-2 text-red-600 hover:bg-red-50 rounded">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Analytics Tab Content -->
+                        <div id="analytics-content" class="tab-content p-6 hidden">
+                            <h3 class="text-xl font-bold text-gray-800 mb-6">Performance Analytics</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div class="bg-gray-50 p-6 rounded-lg">
+                                    <h4 class="font-semibold text-gray-700 mb-4">Grade Distribution</h4>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-gray-600">A (90-100)</span>
+                                                <span class="text-sm font-semibold text-gray-800">12 students (27%)</span>
+                                            </div>
+                                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                                <div class="bg-green-600 h-2 rounded-full" style="width: 27%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-gray-600">B (80-89)</span>
+                                                <span class="text-sm font-semibold text-gray-800">18 students (40%)</span>
+                                            </div>
+                                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                                <div class="bg-blue-600 h-2 rounded-full" style="width: 40%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-gray-600">C (70-79)</span>
+                                                <span class="text-sm font-semibold text-gray-800">10 students (22%)</span>
+                                            </div>
+                                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                                <div class="bg-yellow-600 h-2 rounded-full" style="width: 22%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-gray-600">D (60-69)</span>
+                                                <span class="text-sm font-semibold text-gray-800">5 students (11%)</span>
+                                            </div>
+                                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                                <div class="bg-orange-600 h-2 rounded-full" style="width: 11%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gray-50 p-6 rounded-lg">
+                                    <h4 class="font-semibold text-gray-700 mb-4">Class Statistics</h4>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">Average Grade</span>
+                                            <span class="text-2xl font-bold text-blue-600">82.5%</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">Pass Rate</span>
+                                            <span class="text-2xl font-bold text-green-600">98%</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">Avg. Attendance</span>
+                                            <span class="text-2xl font-bold text-purple-600">92%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+            });
+
+            // Tab functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabName = btn.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.add('hidden'));
+                    
+                    // Add active class to clicked tab
+                    btn.classList.add('active');
+                    document.getElementById(`${tabName}-content`).classList.remove('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

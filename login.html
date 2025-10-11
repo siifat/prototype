@@ -154,7 +154,18 @@
                 setTimeout(() => {
                     window.location.href = 'dashboard_stu.html';
                 }, 1500);
-            } else {
+            } 
+            // Check teacher/faculty credentials
+            else if (!isStudent && id === '123' && password === '123') {
+                // Show success popup
+                successPopup.classList.remove('opacity-0', 'translate-y-10');
+                
+                // Redirect after a delay
+                setTimeout(() => {
+                    window.location.href = 'teacher/dashboard_teacher.html';
+                }, 1500);
+            } 
+            else {
                 // Show error message and shake animation
                 errorMessage.classList.remove('hidden');
                 loginForm.classList.add('shake');

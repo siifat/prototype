@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students - Smart Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1c4e9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b3a5d1;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #ede9fe;
+            color: #6d28d9;
+            transform: translateX(5px);
+        }
+        .student-row {
+            transition: all 0.2s ease-in-out;
+        }
+        .student-row:hover {
+            background-color: #f9fafb;
+            cursor: pointer;
+        }
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: all 300ms ease-out; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg flex-col justify-between hidden lg:flex transition-all duration-300">
+            <div>
+                <div class="h-20 flex items-center justify-center border-b">
+                    <a href="../index.html" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-graduation-cap text-violet-500"></i>
+                        Smart Campus
+                    </a>
+                </div>
+                <nav class="mt-6">
+                    <a href="dashboard_teacher.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-tachometer-alt w-6"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="courses.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-book w-6"></i>
+                        <span>My Courses</span>
+                    </a>
+                    <a href="students.html" class="sidebar-link active flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-users w-6"></i>
+                        <span>Students</span>
+                    </a>
+                    <a href="assignments.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-clipboard-list w-6"></i>
+                        <span>Assignments</span>
+                    </a>
+                    <a href="counselling.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-comments w-6"></i>
+                        <span>Counselling</span>
+                    </a>
+                    <a href="schedule.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-calendar-check w-6"></i>
+                        <span>Schedule</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="p-6 border-t">
+                <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                    <i class="fas fa-cog w-6"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" id="logout-btn" class="sidebar-link flex items-center py-3 px-6 text-red-600 hover:!bg-red-50 hover:!text-red-700">
+                    <i class="fas fa-sign-out-alt w-6"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top bar -->
+            <header class="h-20 bg-white shadow-md flex items-center justify-between px-6 z-10">
+                <button id="menu-toggle" class="lg:hidden">
+                    <i class="fas fa-bars text-2xl text-gray-600"></i>
+                </button>
+                <div class="hidden lg:block">
+                    <h1 class="text-2xl font-bold text-gray-800">Students</h1>
+                    <p class="text-sm text-gray-500">Manage and track student information</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="relative">
+                        <button class="relative">
+                            <i class="fas fa-bell text-2xl text-gray-600 hover:text-violet-600 transition-colors"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="Profile" class="w-11 h-11 rounded-full cursor-pointer border-2 border-violet-200 hover:border-violet-400 transition-all">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main content area -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+                <div class="container mx-auto">
+                    
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Total Students</p>
+                                    <p class="text-3xl font-bold text-gray-800 mt-1">185</p>
+                                </div>
+                                <div class="bg-blue-100 p-3 rounded-full">
+                                    <i class="fas fa-users text-blue-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Active Students</p>
+                                    <p class="text-3xl font-bold text-gray-800 mt-1">178</p>
+                                </div>
+                                <div class="bg-green-100 p-3 rounded-full">
+                                    <i class="fas fa-user-check text-green-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Avg. Attendance</p>
+                                    <p class="text-3xl font-bold text-gray-800 mt-1">87%</p>
+                                </div>
+                                <div class="bg-purple-100 p-3 rounded-full">
+                                    <i class="fas fa-calendar-check text-purple-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Avg. Performance</p>
+                                    <p class="text-3xl font-bold text-gray-800 mt-1">82%</p>
+                                </div>
+                                <div class="bg-orange-100 p-3 rounded-full">
+                                    <i class="fas fa-chart-line text-orange-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search and Filters -->
+                    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="flex-1 relative">
+                                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" id="search-input" placeholder="Search by name or student ID..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent">
+                            </div>
+                            <select id="course-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent">
+                                <option value="all">All Courses</option>
+                                <option value="cse321">CSE 321 - Database Management</option>
+                                <option value="cse334">CSE 334 - System Analysis</option>
+                                <option value="cse322">CSE 322 - Database Lab</option>
+                                <option value="cse431">CSE 431 - Advanced Algorithms</option>
+                                <option value="cse445">CSE 445 - Computer Networks</option>
+                            </select>
+                            <select id="semester-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent">
+                                <option value="all">All Semesters</option>
+                                <option value="fall2025">Fall 2025</option>
+                                <option value="summer2025">Summer 2025</option>
+                                <option value="spring2025">Spring 2025</option>
+                            </select>
+                            <select id="performance-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent">
+                                <option value="all">All Performance</option>
+                                <option value="excellent">Excellent (90%+)</option>
+                                <option value="good">Good (80-89%)</option>
+                                <option value="average">Average (70-79%)</option>
+                                <option value="poor">Below Average (<70%)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Students Table -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                            <h2 class="text-xl font-bold text-gray-800">
+                                <i class="fas fa-users text-violet-500 mr-2"></i>
+                                Student List
+                            </h2>
+                            <div class="flex gap-2">
+                                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                                    <i class="fas fa-download mr-2"></i>Export
+                                </button>
+                                <button class="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors">
+                                    <i class="fas fa-plus mr-2"></i>Add Student
+                                </button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student ID</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attendance</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Performance</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <!-- Student 1 -->
+                                    <tr class="student-row" onclick="openStudentModal('student1')">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="">
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                                    <div class="text-sm text-gray-500">sarah.j@university.edu</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">2021-1-60-123</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">CSE 321</div>
+                                            <div class="text-sm text-gray-500">Section A</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="text-sm font-medium text-gray-900 mr-2">92%</div>
+                                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-green-600 h-2 rounded-full" style="width: 92%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="text-sm font-medium text-gray-900 mr-2">88%</div>
+                                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 88%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button onclick="event.stopPropagation(); openStudentModal('student1')" class="text-violet-600 hover:text-violet-900 mr-3">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button onclick="event.stopPropagation(); sendEmail('sarah.j@university.edu')" class="text-blue-600 hover:text-blue-900">
+                                                <i class="fas fa-envelope"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Student 2 -->
+                                    <tr class="student-row" onclick="openStudentModal('student2')">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="">
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">Michael Chen</div>
+                                                    <div class="text-sm text-gray-500">m.chen@university.edu</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">2021-1-60-124</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">CSE 334</div>
+                                            <div class="text-sm text-gray-500">Section B</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="text-sm font-medium text-gray-900 mr-2">85%</div>
+                                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-green-600 h-2 rounded-full" style="width: 85%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="text-sm font-medium text-gray-900 mr-2">91%</div>
+                                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 91%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button onclick="event.stopPropagation(); openStudentModal('student2')" class="text-violet-600 hover:text-violet-900 mr-3">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button onclick="event.stopPropagation(); sendEmail('m.chen@university.edu')" class="text-blue-600 hover:text-blue-900">
+                                                <i class="fas fa-envelope"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Student 3 -->
+                                    <tr class="student-row" onclick="openStudentModal('student3')">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="">
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">Emily Rodriguez</div>
+                                                    <div class="text-sm text-gray-500">e.rodriguez@university.edu</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">2021-1-60-125</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">CSE 321</div>
+                                            <div class="text-sm text-gray-500">Section A</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="text-sm font-medium text-gray-900 mr-2">78%</div>
+                                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-yellow-600 h-2 rounded-full" style="width: 78%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="text-sm font-medium text-gray-900 mr-2">82%</div>
+                                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 82%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button onclick="event.stopPropagation(); openStudentModal('student3')" class="text-violet-600 hover:text-violet-900 mr-3">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button onclick="event.stopPropagation(); sendEmail('e.rodriguez@university.edu')" class="text-blue-600 hover:text-blue-900">
+                                                <i class="fas fa-envelope"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Student 4 -->
+                                    <tr class="student-row" onclick="openStudentModal('student4')">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="">
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">David Kim</div>
+                                                    <div class="text-sm text-gray-500">d.kim@university.edu</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">2021-1-60-126</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">CSE 431</div>
+                                            <div class="text-sm text-gray-500">Section C</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="text-sm font-medium text-gray-900 mr-2">95%</div>
+                                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-green-600 h-2 rounded-full" style="width: 95%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="text-sm font-medium text-gray-900 mr-2">94%</div>
+                                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 94%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button onclick="event.stopPropagation(); openStudentModal('student4')" class="text-violet-600 hover:text-violet-900 mr-3">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button onclick="event.stopPropagation(); sendEmail('d.kim@university.edu')" class="text-blue-600 hover:text-blue-900">
+                                                <i class="fas fa-envelope"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Student 5 -->
+                                    <tr class="student-row" onclick="openStudentModal('student5')">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="">
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">Jessica Taylor</div>
+                                                    <div class="text-sm text-gray-500">j.taylor@university.edu</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">2021-1-60-127</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">CSE 322</div>
+                                            <div class="text-sm text-gray-500">Section A</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="text-sm font-medium text-gray-900 mr-2">88%</div>
+                                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-green-600 h-2 rounded-full" style="width: 88%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="text-sm font-medium text-gray-900 mr-2">85%</div>
+                                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 85%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button onclick="event.stopPropagation(); openStudentModal('student5')" class="text-violet-600 hover:text-violet-900 mr-3">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button onclick="event.stopPropagation(); sendEmail('j.taylor@university.edu')" class="text-blue-600 hover:text-blue-900">
+                                                <i class="fas fa-envelope"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Student 6 -->
+                                    <tr class="student-row" onclick="openStudentModal('student6')">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="">
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">James Wilson</div>
+                                                    <div class="text-sm text-gray-500">j.wilson@university.edu</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">2021-1-60-128</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">CSE 445</div>
+                                            <div class="text-sm text-gray-500">Section A</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="text-sm font-medium text-gray-900 mr-2">65%</div>
+                                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-red-600 h-2 rounded-full" style="width: 65%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="text-sm font-medium text-gray-900 mr-2">68%</div>
+                                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-orange-600 h-2 rounded-full" style="width: 68%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">At Risk</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button onclick="event.stopPropagation(); openStudentModal('student6')" class="text-violet-600 hover:text-violet-900 mr-3">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button onclick="event.stopPropagation(); sendEmail('j.wilson@university.edu')" class="text-blue-600 hover:text-blue-900">
+                                                <i class="fas fa-envelope"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm text-gray-700">
+                                    Showing <span class="font-medium">1</span> to <span class="font-medium">6</span> of <span class="font-medium">185</span> students
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 border border-gray-300 rounded-md hover:bg-gray-50">Previous</button>
+                                    <button class="px-3 py-1 bg-violet-600 text-white rounded-md">1</button>
+                                    <button class="px-3 py-1 border border-gray-300 rounded-md hover:bg-gray-50">2</button>
+                                    <button class="px-3 py-1 border border-gray-300 rounded-md hover:bg-gray-50">3</button>
+                                    <button class="px-3 py-1 border border-gray-300 rounded-md hover:bg-gray-50">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Student Detail Modal -->
+    <div id="student-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden modal-enter">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-4xl transform transition-all max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b bg-gradient-to-r from-violet-600 to-purple-600 text-white flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <img id="modal-student-img" class="h-16 w-16 rounded-full border-4 border-white" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="">
+                    <div>
+                        <h2 id="modal-student-name" class="text-2xl font-bold">Sarah Johnson</h2>
+                        <p id="modal-student-id" class="text-violet-100">ID: 2021-1-60-123</p>
+                    </div>
+                </div>
+                <button id="close-student-modal-btn" class="text-white hover:text-gray-200 text-3xl">&times;</button>
+            </div>
+            <div class="p-6">
+                <!-- Stats -->
+                <div class="grid grid-cols-4 gap-4 mb-6">
+                    <div class="bg-blue-50 p-4 rounded-lg text-center">
+                        <p class="text-2xl font-bold text-blue-600" id="modal-attendance">92%</p>
+                        <p class="text-sm text-gray-600">Attendance</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg text-center">
+                        <p class="text-2xl font-bold text-green-600" id="modal-performance">88%</p>
+                        <p class="text-sm text-gray-600">Performance</p>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-lg text-center">
+                        <p class="text-2xl font-bold text-purple-600">15</p>
+                        <p class="text-sm text-gray-600">Assignments</p>
+                    </div>
+                    <div class="bg-orange-50 p-4 rounded-lg text-center">
+                        <p class="text-2xl font-bold text-orange-600">A-</p>
+                        <p class="text-sm text-gray-600">Grade</p>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="border-b border-gray-200 mb-6">
+                    <ul class="flex -mb-px">
+                        <li class="mr-2">
+                            <button class="tab-btn active inline-block p-4 border-b-2 border-violet-600 text-violet-600 font-semibold" onclick="switchTab('overview')">Overview</button>
+                        </li>
+                        <li class="mr-2">
+                            <button class="tab-btn inline-block p-4 border-b-2 border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700" onclick="switchTab('assignments')">Assignments</button>
+                        </li>
+                        <li class="mr-2">
+                            <button class="tab-btn inline-block p-4 border-b-2 border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700" onclick="switchTab('attendance')">Attendance</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tab Content -->
+                <div id="tab-overview" class="tab-content">
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-800 mb-2">Contact Information</h3>
+                            <div class="bg-gray-50 p-4 rounded-lg space-y-2">
+                                <p class="text-sm"><span class="font-medium">Email:</span> <span id="modal-email">sarah.j@university.edu</span></p>
+                                <p class="text-sm"><span class="font-medium">Phone:</span> +1 (555) 123-4567</p>
+                                <p class="text-sm"><span class="font-medium">Department:</span> Computer Science & Engineering</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800 mb-2">Academic Information</h3>
+                            <div class="bg-gray-50 p-4 rounded-lg space-y-2">
+                                <p class="text-sm"><span class="font-medium">Program:</span> B.Sc. in Computer Science</p>
+                                <p class="text-sm"><span class="font-medium">Semester:</span> 7th Semester</p>
+                                <p class="text-sm"><span class="font-medium">CGPA:</span> 3.65/4.00</p>
+                                <p class="text-sm"><span class="font-medium">Credit Completed:</span> 98/130</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800 mb-2">Recent Activity</h3>
+                            <div class="bg-gray-50 p-4 rounded-lg space-y-2">
+                                <div class="flex items-start gap-2">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <div>
+                                        <p class="text-sm font-medium">Submitted Database Normalization Assignment</p>
+                                        <p class="text-xs text-gray-500">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <i class="fas fa-calendar-check text-blue-500 mt-1"></i>
+                                    <div>
+                                        <p class="text-sm font-medium">Attended CSE 321 class</p>
+                                        <p class="text-xs text-gray-500">5 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <i class="fas fa-comment text-purple-500 mt-1"></i>
+                                    <div>
+                                        <p class="text-sm font-medium">Requested counselling session</p>
+                                        <p class="text-xs text-gray-500">1 day ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-assignments" class="tab-content hidden">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-800">Database Normalization Assignment</h4>
+                                <p class="text-sm text-gray-600">Submitted on Oct 10, 2025</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-lg font-bold text-green-600">9/10</p>
+                                <p class="text-xs text-gray-500">Grade</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-800">ER Diagram Design</h4>
+                                <p class="text-sm text-gray-600">Submitted on Sep 30, 2025</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-lg font-bold text-green-600">8.5/10</p>
+                                <p class="text-xs text-gray-500">Grade</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-800">SQL Query Practice</h4>
+                                <p class="text-sm text-gray-600">Due Oct 16, 2025</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-semibold rounded-full">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-attendance" class="tab-content hidden">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Oct 11, 2025 - CSE 321</h4>
+                                <p class="text-sm text-gray-600">Database Management System</p>
+                            </div>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Present</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Oct 9, 2025 - CSE 321</h4>
+                                <p class="text-sm text-gray-600">Database Management System</p>
+                            </div>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Present</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-red-50 rounded-lg border-l-4 border-red-500">
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Oct 7, 2025 - CSE 321</h4>
+                                <p class="text-sm text-gray-600">Database Management System</p>
+                            </div>
+                            <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">Absent</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Oct 4, 2025 - CSE 321</h4>
+                                <p class="text-sm text-gray-600">Database Management System</p>
+                            </div>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Present</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end gap-3">
+                    <button class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-envelope mr-2"></i>Send Email
+                    </button>
+                    <button class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                        <i class="fas fa-calendar-plus mr-2"></i>Schedule Meeting
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden modal-enter">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-sm transform transition-all p-6 text-center">
+            <i class="fas fa-exclamation-triangle text-5xl text-yellow-400 mb-4"></i>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Confirm Logout</h2>
+            <p class="text-gray-600 mb-6">Are you sure you want to log out?</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancel-logout-btn" class="py-2 px-6 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
+                <button id="confirm-logout-btn" class="py-2 px-6 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-colors">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+            });
+
+            // Student Detail Modal
+            const studentModal = document.getElementById('student-modal');
+            const closeStudentModalBtn = document.getElementById('close-student-modal-btn');
+
+            window.openStudentModal = (studentId) => {
+                studentModal.classList.remove('hidden');
+                setTimeout(() => studentModal.classList.add('modal-enter-active'), 50);
+            };
+
+            const closeStudentModal = () => {
+                studentModal.classList.remove('modal-enter-active');
+                setTimeout(() => studentModal.classList.add('hidden'), 300);
+            };
+
+            closeStudentModalBtn.addEventListener('click', closeStudentModal);
+            studentModal.addEventListener('click', (event) => {
+                if (event.target === studentModal) closeStudentModal();
+            });
+
+            // Tab switching
+            window.switchTab = (tabName) => {
+                // Hide all tab contents
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.add('hidden');
+                });
+                
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active', 'border-violet-600', 'text-violet-600');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                });
+                
+                // Show selected tab content
+                document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+                
+                // Add active class to selected tab
+                event.target.classList.add('active', 'border-violet-600', 'text-violet-600');
+                event.target.classList.remove('border-transparent', 'text-gray-500');
+            };
+
+            // Email function
+            window.sendEmail = (email) => {
+                window.location.href = `mailto:${email}`;
+            };
+
+            // Logout Modal
+            const logoutModal = document.getElementById('logout-modal');
+            const logoutBtn = document.getElementById('logout-btn');
+            const cancelLogoutBtn = document.getElementById('cancel-logout-btn');
+            const confirmLogoutBtn = document.getElementById('confirm-logout-btn');
+
+            const openLogoutModal = () => {
+                logoutModal.classList.remove('hidden');
+                setTimeout(() => logoutModal.classList.add('modal-enter-active'), 50);
+            };
+
+            const closeLogoutModal = () => {
+                logoutModal.classList.remove('modal-enter-active');
+                setTimeout(() => logoutModal.classList.add('hidden'), 300);
+            };
+
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openLogoutModal();
+            });
+
+            cancelLogoutBtn.addEventListener('click', closeLogoutModal);
+            confirmLogoutBtn.addEventListener('click', () => {
+                window.location.href = '../index.html';
+            });
+
+            logoutModal.addEventListener('click', (event) => {
+                if (event.target === logoutModal) closeLogoutModal();
+            });
+
+            // Close modals with Escape key
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeStudentModal();
+                    closeLogoutModal();
+                }
+            });
+
+            // Filter functionality
+            const searchInput = document.getElementById('search-input');
+            const courseFilter = document.getElementById('course-filter');
+            const semesterFilter = document.getElementById('semester-filter');
+            const performanceFilter = document.getElementById('performance-filter');
+
+            searchInput.addEventListener('input', filterStudents);
+            courseFilter.addEventListener('change', filterStudents);
+            semesterFilter.addEventListener('change', filterStudents);
+            performanceFilter.addEventListener('change', filterStudents);
+
+            function filterStudents() {
+                console.log('Filtering students:', {
+                    search: searchInput.value,
+                    course: courseFilter.value,
+                    semester: semesterFilter.value,
+                    performance: performanceFilter.value
+                });
+            }
+        });
+    </script>
+</body>
+</html>

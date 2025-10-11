@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses - Smart Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1c4e9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b3a5d1;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #ede9fe;
+            color: #6d28d9;
+            transform: translateX(5px);
+        }
+        .course-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: all 300ms ease-out; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg flex-col justify-between hidden lg:flex transition-all duration-300">
+            <div>
+                <div class="h-20 flex items-center justify-center border-b">
+                    <a href="../index.html" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-graduation-cap text-violet-500"></i>
+                        Smart Campus
+                    </a>
+                </div>
+                <nav class="mt-6">
+                    <a href="dashboard_teacher.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-tachometer-alt w-6"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="courses.html" class="sidebar-link active flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-book w-6"></i>
+                        <span>My Courses</span>
+                    </a>
+                    <a href="students.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-users w-6"></i>
+                        <span>Students</span>
+                    </a>
+                    <a href="assignments.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-clipboard-list w-6"></i>
+                        <span>Assignments</span>
+                    </a>
+                    <a href="counselling.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-comments w-6"></i>
+                        <span>Counselling</span>
+                    </a>
+                    <a href="schedule.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-calendar-check w-6"></i>
+                        <span>Schedule</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="p-6 border-t">
+                <a href="#" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                    <i class="fas fa-cog w-6"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" id="logout-btn" class="sidebar-link flex items-center py-3 px-6 text-red-600 hover:!bg-red-50 hover:!text-red-700">
+                    <i class="fas fa-sign-out-alt w-6"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top bar -->
+            <header class="h-20 bg-white shadow-md flex items-center justify-between px-6 z-10">
+                <button id="menu-toggle" class="lg:hidden">
+                    <i class="fas fa-bars text-2xl text-gray-600"></i>
+                </button>
+                <div class="hidden lg:block">
+                    <h1 class="text-2xl font-bold text-gray-800">My Courses</h1>
+                    <p class="text-sm text-gray-500">Manage your course materials and students</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="relative">
+                        <button class="relative">
+                            <i class="fas fa-bell text-2xl text-gray-600 hover:text-violet-600 transition-colors"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="Profile" class="w-11 h-11 rounded-full cursor-pointer border-2 border-violet-200 hover:border-violet-400 transition-all">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main content area -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+                <div class="container mx-auto">
+                    
+                    <!-- Filter and Add Course Button -->
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                        <div class="flex gap-3">
+                            <select id="semester-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent">
+                                <option value="all">All Semesters</option>
+                                <option value="summer-2025" selected>Summer 2025</option>
+                                <option value="spring-2025">Spring 2025</option>
+                                <option value="fall-2024">Fall 2024</option>
+                            </select>
+                            <select id="status-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent">
+                                <option value="all">All Status</option>
+                                <option value="active" selected>Active</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                        <button id="add-course-btn" class="px-6 py-2 bg-violet-600 text-white font-semibold rounded-lg hover:bg-violet-700 transition-colors shadow-lg hover:shadow-xl">
+                            <i class="fas fa-plus mr-2"></i>Add New Course
+                        </button>
+                    </div>
+
+                    <!-- Course Cards Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                        
+                        <!-- Course Card 1 -->
+                        <div class="course-card bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="window.location.href='course_detail.html?id=1'">
+                            <div class="h-32 bg-gradient-to-br from-blue-500 to-blue-600 p-6 flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-white text-2xl font-bold mb-1">CSE 321</h3>
+                                    <p class="text-blue-100 text-sm">Section A</p>
+                                </div>
+                                <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                                    <i class="fas fa-database text-white text-2xl"></i>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Database Management</h3>
+                                <p class="text-sm text-gray-600 mb-4">Learn database design, SQL, and database administration</p>
+                                
+                                <div class="space-y-2 mb-4">
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-users text-blue-500 mr-2"></i>Students
+                                        </span>
+                                        <span class="font-semibold text-gray-800">45</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-clipboard-list text-green-500 mr-2"></i>Assignments
+                                        </span>
+                                        <span class="font-semibold text-gray-800">8</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-folder text-orange-500 mr-2"></i>Resources
+                                        </span>
+                                        <span class="font-semibold text-gray-800">23</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 border-t">
+                                    <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Active</span>
+                                    <span class="text-xs text-gray-500">
+                                        <i class="fas fa-clock mr-1"></i>Mon, Wed 8:00-9:30
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course Card 2 -->
+                        <div class="course-card bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="window.location.href='course_detail.html?id=2'">
+                            <div class="h-32 bg-gradient-to-br from-purple-500 to-purple-600 p-6 flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-white text-2xl font-bold mb-1">CSE 334</h3>
+                                    <p class="text-purple-100 text-sm">Section B</p>
+                                </div>
+                                <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                                    <i class="fas fa-project-diagram text-white text-2xl"></i>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">System Analysis & Design</h3>
+                                <p class="text-sm text-gray-600 mb-4">Software development life cycle and system design</p>
+                                
+                                <div class="space-y-2 mb-4">
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-users text-blue-500 mr-2"></i>Students
+                                        </span>
+                                        <span class="font-semibold text-gray-800">52</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-clipboard-list text-green-500 mr-2"></i>Assignments
+                                        </span>
+                                        <span class="font-semibold text-gray-800">6</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-folder text-orange-500 mr-2"></i>Resources
+                                        </span>
+                                        <span class="font-semibold text-gray-800">18</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 border-t">
+                                    <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Active</span>
+                                    <span class="text-xs text-gray-500">
+                                        <i class="fas fa-clock mr-1"></i>Sun, Tue 10:00-11:30
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course Card 3 -->
+                        <div class="course-card bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="window.location.href='course_detail.html?id=3'">
+                            <div class="h-32 bg-gradient-to-br from-green-500 to-green-600 p-6 flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-white text-2xl font-bold mb-1">CSE 322</h3>
+                                    <p class="text-green-100 text-sm">Section A</p>
+                                </div>
+                                <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                                    <i class="fas fa-laptop-code text-white text-2xl"></i>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Database Lab</h3>
+                                <p class="text-sm text-gray-600 mb-4">Hands-on database programming and administration</p>
+                                
+                                <div class="space-y-2 mb-4">
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-users text-blue-500 mr-2"></i>Students
+                                        </span>
+                                        <span class="font-semibold text-gray-800">30</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-clipboard-list text-green-500 mr-2"></i>Assignments
+                                        </span>
+                                        <span class="font-semibold text-gray-800">10</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-folder text-orange-500 mr-2"></i>Resources
+                                        </span>
+                                        <span class="font-semibold text-gray-800">15</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 border-t">
+                                    <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Active</span>
+                                    <span class="text-xs text-gray-500">
+                                        <i class="fas fa-clock mr-1"></i>Wed 2:00-4:00
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course Card 4 -->
+                        <div class="course-card bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="window.location.href='course_detail.html?id=4'">
+                            <div class="h-32 bg-gradient-to-br from-orange-500 to-orange-600 p-6 flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-white text-2xl font-bold mb-1">CSE 431</h3>
+                                    <p class="text-orange-100 text-sm">Section C</p>
+                                </div>
+                                <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                                    <i class="fas fa-code text-white text-2xl"></i>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Advanced Algorithms</h3>
+                                <p class="text-sm text-gray-600 mb-4">Algorithm design and complexity analysis</p>
+                                
+                                <div class="space-y-2 mb-4">
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-users text-blue-500 mr-2"></i>Students
+                                        </span>
+                                        <span class="font-semibold text-gray-800">38</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-clipboard-list text-green-500 mr-2"></i>Assignments
+                                        </span>
+                                        <span class="font-semibold text-gray-800">7</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-folder text-orange-500 mr-2"></i>Resources
+                                        </span>
+                                        <span class="font-semibold text-gray-800">20</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 border-t">
+                                    <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Active</span>
+                                    <span class="text-xs text-gray-500">
+                                        <i class="fas fa-clock mr-1"></i>Tue, Thu 1:00-2:30
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course Card 5 -->
+                        <div class="course-card bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="window.location.href='course_detail.html?id=5'">
+                            <div class="h-32 bg-gradient-to-br from-red-500 to-red-600 p-6 flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-white text-2xl font-bold mb-1">CSE 445</h3>
+                                    <p class="text-red-100 text-sm">Section A</p>
+                                </div>
+                                <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                                    <i class="fas fa-network-wired text-white text-2xl"></i>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Computer Networks</h3>
+                                <p class="text-sm text-gray-600 mb-4">Network protocols, architecture, and security</p>
+                                
+                                <div class="space-y-2 mb-4">
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-users text-blue-500 mr-2"></i>Students
+                                        </span>
+                                        <span class="font-semibold text-gray-800">42</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-clipboard-list text-green-500 mr-2"></i>Assignments
+                                        </span>
+                                        <span class="font-semibold text-gray-800">5</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-folder text-orange-500 mr-2"></i>Resources
+                                        </span>
+                                        <span class="font-semibold text-gray-800">16</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-4 border-t">
+                                    <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Active</span>
+                                    <span class="text-xs text-gray-500">
+                                        <i class="fas fa-clock mr-1"></i>Mon, Thu 11:00-12:30
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden modal-enter">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-sm transform transition-all p-6 text-center">
+            <i class="fas fa-exclamation-triangle text-5xl text-yellow-400 mb-4"></i>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Confirm Logout</h2>
+            <p class="text-gray-600 mb-6">Are you sure you want to log out?</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancel-logout-btn" class="py-2 px-6 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
+                <button id="confirm-logout-btn" class="py-2 px-6 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-colors">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+            });
+
+            // Logout Modal
+            const logoutModal = document.getElementById('logout-modal');
+            const logoutBtn = document.getElementById('logout-btn');
+            const cancelLogoutBtn = document.getElementById('cancel-logout-btn');
+            const confirmLogoutBtn = document.getElementById('confirm-logout-btn');
+
+            const openLogoutModal = () => {
+                logoutModal.classList.remove('hidden');
+                setTimeout(() => logoutModal.classList.add('modal-enter-active'), 50);
+            };
+
+            const closeLogoutModal = () => {
+                logoutModal.classList.remove('modal-enter-active');
+                setTimeout(() => logoutModal.classList.add('hidden'), 300);
+            };
+
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openLogoutModal();
+            });
+
+            cancelLogoutBtn.addEventListener('click', closeLogoutModal);
+            confirmLogoutBtn.addEventListener('click', () => {
+                window.location.href = '../index.html';
+            });
+
+            logoutModal.addEventListener('click', (event) => {
+                if (event.target === logoutModal) closeLogoutModal();
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && !logoutModal.classList.contains('hidden')) {
+                    closeLogoutModal();
+                }
+            });
+
+            // Filter functionality
+            const semesterFilter = document.getElementById('semester-filter');
+            const statusFilter = document.getElementById('status-filter');
+
+            semesterFilter.addEventListener('change', filterCourses);
+            statusFilter.addEventListener('change', filterCourses);
+
+            function filterCourses() {
+                // Add filtering logic here based on selected filters
+                console.log('Filtering courses:', {
+                    semester: semesterFilter.value,
+                    status: statusFilter.value
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Smart Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1c4e9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b3a5d1;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #ede9fe;
+            color: #6d28d9;
+            transform: translateX(5px);
+        }
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: all 300ms ease-out; }
+        .toggle-checkbox:checked {
+            right: 0;
+            background-color: #7c3aed;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #7c3aed;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg flex-col justify-between hidden lg:flex transition-all duration-300">
+            <div>
+                <div class="h-20 flex items-center justify-center border-b">
+                    <a href="../index.html" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-graduation-cap text-violet-500"></i>
+                        Smart Campus
+                    </a>
+                </div>
+                <nav class="mt-6">
+                    <a href="dashboard_teacher.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-tachometer-alt w-6"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="courses.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-book w-6"></i>
+                        <span>My Courses</span>
+                    </a>
+                    <a href="students.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-users w-6"></i>
+                        <span>Students</span>
+                    </a>
+                    <a href="assignments.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-clipboard-list w-6"></i>
+                        <span>Assignments</span>
+                    </a>
+                    <a href="counselling.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-comments w-6"></i>
+                        <span>Counselling</span>
+                    </a>
+                    <a href="schedule.html" class="sidebar-link flex items-center py-3 px-6 text-gray-700">
+                        <i class="fas fa-calendar-check w-6"></i>
+                        <span>Schedule</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="p-6 border-t">
+                <a href="settings.html" class="sidebar-link active flex items-center py-3 px-6 text-gray-700">
+                    <i class="fas fa-cog w-6"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" id="logout-btn" class="sidebar-link flex items-center py-3 px-6 text-red-600 hover:!bg-red-50 hover:!text-red-700">
+                    <i class="fas fa-sign-out-alt w-6"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top bar -->
+            <header class="h-20 bg-white shadow-md flex items-center justify-between px-6 z-10">
+                <button id="menu-toggle" class="lg:hidden">
+                    <i class="fas fa-bars text-2xl text-gray-600"></i>
+                </button>
+                <div class="hidden lg:block">
+                    <h1 class="text-2xl font-bold text-gray-800">Settings</h1>
+                    <p class="text-sm text-gray-500">Manage your account and preferences</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="relative">
+                        <button class="relative">
+                            <i class="fas fa-bell text-2xl text-gray-600 hover:text-violet-600 transition-colors"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&q=80" alt="Profile" class="w-11 h-11 rounded-full cursor-pointer border-2 border-violet-200 hover:border-violet-400 transition-all">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main content area -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+                <div class="container mx-auto max-w-5xl">
+                    
+                    <!-- Tabs -->
+                    <div class="bg-white rounded-lg shadow-md mb-6">
+                        <div class="border-b border-gray-200">
+                            <ul class="flex -mb-px">
+                                <li class="mr-2">
+                                    <button class="tab-btn active inline-block p-4 border-b-2 border-violet-600 text-violet-600 font-semibold" onclick="switchTab('profile')">
+                                        <i class="fas fa-user mr-2"></i>Profile
+                                    </button>
+                                </li>
+                                <li class="mr-2">
+                                    <button class="tab-btn inline-block p-4 border-b-2 border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700" onclick="switchTab('account')">
+                                        <i class="fas fa-key mr-2"></i>Account
+                                    </button>
+                                </li>
+                                <li class="mr-2">
+                                    <button class="tab-btn inline-block p-4 border-b-2 border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700" onclick="switchTab('notifications')">
+                                        <i class="fas fa-bell mr-2"></i>Notifications
+                                    </button>
+                                </li>
+                                <li class="mr-2">
+                                    <button class="tab-btn inline-block p-4 border-b-2 border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700" onclick="switchTab('preferences')">
+                                        <i class="fas fa-sliders-h mr-2"></i>Preferences
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Profile Tab -->
+                    <div id="tab-profile" class="tab-content">
+                        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-6">Profile Information</h2>
+                            
+                            <!-- Profile Picture -->
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Profile Picture</label>
+                                <div class="flex items-center gap-6">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Profile" class="w-24 h-24 rounded-full border-4 border-violet-200">
+                                    <div>
+                                        <button class="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors mb-2">
+                                            <i class="fas fa-upload mr-2"></i>Upload New Photo
+                                        </button>
+                                        <p class="text-xs text-gray-500">JPG, PNG or GIF. Max size 2MB.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form class="space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                        <input type="text" value="Dr. John Anderson" class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Employee ID</label>
+                                        <input type="text" value="FAC-2018-001" class="w-full p-2 border border-gray-300 rounded-md bg-gray-50" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                        <input type="email" value="j.anderson@university.edu" class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                        <input type="tel" value="+1 (555) 123-4567" class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                                    <input type="text" value="Computer Science & Engineering" class="w-full p-2 border border-gray-300 rounded-md bg-gray-50" readonly>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Designation</label>
+                                    <select class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500">
+                                        <option>Associate Professor</option>
+                                        <option>Assistant Professor</option>
+                                        <option>Professor</option>
+                                        <option>Lecturer</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Office Room</label>
+                                    <input type="text" value="Room 305, Faculty Building" class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                                    <textarea rows="4" class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500" placeholder="Tell us about yourself...">Ph.D. in Computer Science with 10+ years of teaching experience. Specialization in Database Systems, Data Mining, and Machine Learning.</textarea>
+                                </div>
+
+                                <div class="flex justify-end gap-3 pt-4">
+                                    <button type="button" class="py-2 px-6 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancel</button>
+                                    <button type="submit" class="py-2 px-6 bg-violet-600 text-white rounded-lg hover:bg-violet-700">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Account Tab -->
+                    <div id="tab-account" class="tab-content hidden">
+                        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-6">Change Password</h2>
+                            <form class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                                    <input type="password" class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500" placeholder="Enter current password">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                                    <input type="password" class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500" placeholder="Enter new password">
+                                    <p class="text-xs text-gray-500 mt-1">Must be at least 8 characters with uppercase, lowercase, and numbers</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                                    <input type="password" class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500" placeholder="Confirm new password">
+                                </div>
+                                <div class="flex justify-end gap-3 pt-4">
+                                    <button type="button" class="py-2 px-6 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancel</button>
+                                    <button type="submit" class="py-2 px-6 bg-violet-600 text-white rounded-lg hover:bg-violet-700">Update Password</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-6">Two-Factor Authentication</h2>
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <p class="font-medium text-gray-800">Enable 2FA</p>
+                                    <p class="text-sm text-gray-600">Add an extra layer of security to your account</p>
+                                </div>
+                                <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                                    <input type="checkbox" id="toggle-2fa" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-200"/>
+                                    <label for="toggle-2fa" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                </div>
+                            </div>
+                            <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-mobile-alt mr-2"></i>Configure 2FA
+                            </button>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-6">Active Sessions</h2>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div class="flex items-center gap-3">
+                                        <div class="bg-green-500 p-3 rounded-lg">
+                                            <i class="fas fa-desktop text-white"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-800">Windows PC - Chrome</p>
+                                            <p class="text-sm text-gray-600">IP: 192.168.1.100 • Active now</p>
+                                        </div>
+                                    </div>
+                                    <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Current</span>
+                                </div>
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div class="flex items-center gap-3">
+                                        <div class="bg-gray-500 p-3 rounded-lg">
+                                            <i class="fas fa-mobile-alt text-white"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-800">iPhone 13 - Safari</p>
+                                            <p class="text-sm text-gray-600">IP: 192.168.1.105 • 2 hours ago</p>
+                                        </div>
+                                    </div>
+                                    <button class="px-3 py-1 bg-red-600 text-white text-xs font-semibold rounded-lg hover:bg-red-700">Revoke</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Tab -->
+                    <div id="tab-notifications" class="tab-content hidden">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-6">Notification Preferences</h2>
+                            
+                            <div class="space-y-6">
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 mb-4">Email Notifications</h3>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <div>
+                                                <p class="font-medium text-gray-800">Assignment Submissions</p>
+                                                <p class="text-sm text-gray-600">Get notified when students submit assignments</p>
+                                            </div>
+                                            <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                                                <input type="checkbox" checked id="notif-assignment" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-200"/>
+                                                <label for="notif-assignment" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <div>
+                                                <p class="font-medium text-gray-800">Counselling Requests</p>
+                                                <p class="text-sm text-gray-600">Receive alerts for new counselling requests</p>
+                                            </div>
+                                            <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                                                <input type="checkbox" checked id="notif-counselling" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-200"/>
+                                                <label for="notif-counselling" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <div>
+                                                <p class="font-medium text-gray-800">Class Reminders</p>
+                                                <p class="text-sm text-gray-600">Reminders 30 minutes before class</p>
+                                            </div>
+                                            <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                                                <input type="checkbox" checked id="notif-class" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-200"/>
+                                                <label for="notif-class" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <div>
+                                                <p class="font-medium text-gray-800">System Updates</p>
+                                                <p class="text-sm text-gray-600">Important announcements and updates</p>
+                                            </div>
+                                            <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                                                <input type="checkbox" id="notif-system" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-200"/>
+                                                <label for="notif-system" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 mb-4">Push Notifications</h3>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <div>
+                                                <p class="font-medium text-gray-800">Browser Notifications</p>
+                                                <p class="text-sm text-gray-600">Receive notifications in your browser</p>
+                                            </div>
+                                            <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                                                <input type="checkbox" checked id="notif-browser" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-200"/>
+                                                <label for="notif-browser" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <div>
+                                                <p class="font-medium text-gray-800">Mobile Notifications</p>
+                                                <p class="text-sm text-gray-600">Get notifications on your mobile device</p>
+                                            </div>
+                                            <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                                                <input type="checkbox" id="notif-mobile" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-200"/>
+                                                <label for="notif-mobile" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end gap-3 pt-4">
+                                    <button type="button" class="py-2 px-6 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Reset to Default</button>
+                                    <button type="submit" class="py-2 px-6 bg-violet-600 text-white rounded-lg hover:bg-violet-700">Save Preferences</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preferences Tab -->
+                    <div id="tab-preferences" class="tab-content hidden">
+                        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-6">Display Preferences</h2>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Language</label>
+                                    <select class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500">
+                                        <option>English</option>
+                                        <option>Spanish</option>
+                                        <option>French</option>
+                                        <option>German</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Time Zone</label>
+                                    <select class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500">
+                                        <option>(GMT-5:00) Eastern Time (US & Canada)</option>
+                                        <option>(GMT-6:00) Central Time (US & Canada)</option>
+                                        <option>(GMT-7:00) Mountain Time (US & Canada)</option>
+                                        <option>(GMT-8:00) Pacific Time (US & Canada)</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Date Format</label>
+                                    <select class="w-full p-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500">
+                                        <option>MM/DD/YYYY</option>
+                                        <option>DD/MM/YYYY</option>
+                                        <option>YYYY-MM-DD</option>
+                                    </select>
+                                </div>
+
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Dark Mode</p>
+                                        <p class="text-sm text-gray-600">Switch to dark theme</p>
+                                    </div>
+                                    <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                                        <input type="checkbox" id="dark-mode" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-200"/>
+                                        <label for="dark-mode" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-6">Privacy Settings</h2>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Show Email to Students</p>
+                                        <p class="text-sm text-gray-600">Allow students to see your email address</p>
+                                    </div>
+                                    <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                                        <input type="checkbox" checked id="privacy-email" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-200"/>
+                                        <label for="privacy-email" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Show Office Hours</p>
+                                        <p class="text-sm text-gray-600">Display your office hours publicly</p>
+                                    </div>
+                                    <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                                        <input type="checkbox" checked id="privacy-office" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-200"/>
+                                        <label for="privacy-office" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Allow Profile Viewing</p>
+                                        <p class="text-sm text-gray-600">Let students view your profile page</p>
+                                    </div>
+                                    <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                                        <input type="checkbox" checked id="privacy-profile" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-200"/>
+                                        <label for="privacy-profile" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-3">
+                            <button type="button" class="py-2 px-6 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancel</button>
+                            <button type="submit" class="py-2 px-6 bg-violet-600 text-white rounded-lg hover:bg-violet-700">Save All Settings</button>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden modal-enter">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-sm transform transition-all p-6 text-center">
+            <i class="fas fa-exclamation-triangle text-5xl text-yellow-400 mb-4"></i>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Confirm Logout</h2>
+            <p class="text-gray-600 mb-6">Are you sure you want to log out?</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancel-logout-btn" class="py-2 px-6 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
+                <button id="confirm-logout-btn" class="py-2 px-6 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-colors">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+            });
+
+            // Tab switching
+            window.switchTab = (tabName) => {
+                // Hide all tab contents
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.add('hidden');
+                });
+                
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active', 'border-violet-600', 'text-violet-600');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                });
+                
+                // Show selected tab content
+                document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+                
+                // Add active class to selected tab
+                event.target.classList.add('active', 'border-violet-600', 'text-violet-600');
+                event.target.classList.remove('border-transparent', 'text-gray-500');
+            };
+
+            // Logout Modal
+            const logoutModal = document.getElementById('logout-modal');
+            const logoutBtn = document.getElementById('logout-btn');
+            const cancelLogoutBtn = document.getElementById('cancel-logout-btn');
+            const confirmLogoutBtn = document.getElementById('confirm-logout-btn');
+
+            const openLogoutModal = () => {
+                logoutModal.classList.remove('hidden');
+                setTimeout(() => logoutModal.classList.add('modal-enter-active'), 50);
+            };
+
+            const closeLogoutModal = () => {
+                logoutModal.classList.remove('modal-enter-active');
+                setTimeout(() => logoutModal.classList.add('hidden'), 300);
+            };
+
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openLogoutModal();
+            });
+
+            cancelLogoutBtn.addEventListener('click', closeLogoutModal);
+            confirmLogoutBtn.addEventListener('click', () => {
+                window.location.href = '../index.html';
+            });
+
+            logoutModal.addEventListener('click', (event) => {
+                if (event.target === logoutModal) closeLogoutModal();
+            });
+
+            // Close modals with Escape key
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeLogoutModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
